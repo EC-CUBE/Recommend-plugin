@@ -60,10 +60,9 @@ if (function_exists('log_info') === false) {
             return $app['monolog'];
         });
     }
-
-    // 3.0.9以上の場合は初期化処理を行う.
-    if (method_exists('Eccube\Application', 'getInstance')) {
-        $app = \Eccube\Application::getInstance();
-        eccube_log_init($app);
-    }
+}
+// 3.0.9以上の場合は初期化処理を行う.
+if (method_exists('Eccube\Application', 'getInstance')) {
+    $app = \Eccube\Application::getInstance();
+    eccube_log_init($app);
 }
