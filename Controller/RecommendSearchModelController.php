@@ -34,7 +34,8 @@ class RecommendSearchModelController
             return null;
         }
 
-        $app['monolog']->addDebug('search product start.');
+        log_debug('search product start.');
+
         $pageCount = $app['config']['default_page_count'];
         $session = $app['session'];
         if ('POST' === $request->getMethod()) {
@@ -72,8 +73,9 @@ class RecommendSearchModelController
         /** @var ArrayCollection */
         $arrProduct = $pagination->getItems();
 
+        log_debug('search product finish.');
         if (count($arrProduct) == 0) {
-            $app['monolog']->addDebug('search product not found.');
+            log_debug('search product not found.');
         }
 
         return $app->render('Recommend/Resource/template/admin/search_product.twig', array(
