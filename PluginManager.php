@@ -70,7 +70,7 @@ class PluginManager extends AbstractPluginManager
     }
 
     /**
-     * @param null|array $meta
+     * @param array|null $meta
      * @param ContainerInterface $container
      *
      * @throws \Exception
