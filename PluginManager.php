@@ -77,8 +77,9 @@ class PluginManager extends AbstractPluginManager
      */
     public function enable(array $meta = null, ContainerInterface $container)
     {
+        $entityManager = $container->get('doctrine')->getManager();
         $this->copyBlock($container);
-        $Block = $container->get(BlockRepository::class)->findOneBy(['file_name' => $this->blockFileName]);
+        $Block = $entityManager->getRepository(Block::class)->findOneBy(['file_name' => $this->blockFileName]);
         if (is_null($Block)) {
             // pagelayoutの作成
             $this->createDataBlock($container);
@@ -112,12 +113,12 @@ class PluginManager extends AbstractPluginManager
      */
     private function createDataBlock(ContainerInterface $container)
     {
-        $em = $container->get('doctrine.orm.entity_manager');
-        $DeviceType = $container->get(DeviceTypeRepository::class)->find(DeviceType::DEVICE_TYPE_PC);
+        $em = $container->get('doctrine')->getManager();
+        $DeviceType = $em->getRepository(DeviceType::class)->find(DeviceType::DEVICE_TYPE_PC);
 
         try {
             /** @var Block $Block */
-            $Block = $container->get(BlockRepository::class)->newBlock($DeviceType);
+            $Block = $em->getRepository(Block::class)->newBlock($DeviceType);
 
             // Blockの登録
             $Block->setName($this->blockName)
@@ -128,13 +129,13 @@ class PluginManager extends AbstractPluginManager
             $em->flush($Block);
 
             // check exists block position
-            $blockPos = $container->get(BlockPositionRepository::class)->findOneBy(['Block' => $Block]);
+            $blockPos = $em->getRepository(BlockPosition::class)->findOneBy(['Block' => $Block]);
             if ($blockPos) {
                 return;
             }
 
             // BlockPositionの登録
-            $blockPos = $container->get(BlockPositionRepository::class)->findOneBy(
+            $blockPos = $em->getRepository(BlockPosition::class)->findOneBy(
                 ['section' => Layout::TARGET_ID_MAIN_BOTTOM, 'layout_id' => Layout::DEFAULT_LAYOUT_UNDERLAYER_PAGE],
                 ['block_row' => 'DESC']
             );
@@ -148,7 +149,7 @@ class PluginManager extends AbstractPluginManager
                 $BlockPosition->setBlockRow($blockRow);
             }
 
-            $LayoutDefault = $container->get(LayoutRepository::class)->find(Layout::DEFAULT_LAYOUT_UNDERLAYER_PAGE);
+            $LayoutDefault = $em->getRepository(Layout::class)->find(Layout::DEFAULT_LAYOUT_UNDERLAYER_PAGE);
 
             $BlockPosition->setLayout($LayoutDefault)
                 ->setLayoutId($LayoutDefault->getId())
@@ -172,15 +173,15 @@ class PluginManager extends AbstractPluginManager
      */
     private function removeDataBlock(ContainerInterface $container)
     {
+        $em = $container->get('doctrine')->getManager();
         // Blockの取得(file_nameはアプリケーションの仕組み上必ずユニーク)
         /** @var \Eccube\Entity\Block $Block */
-        $Block = $container->get(BlockRepository::class)->findOneBy(['file_name' => $this->blockFileName]);
+        $Block = $em->getRepository(Block::class)->findOneBy(['file_name' => $this->blockFileName]);
 
         if (!$Block) {
             return;
         }
 
-        $em = $container->get('doctrine.orm.entity_manager');
         try {
             // BlockPositionの削除
             $blockPositions = $Block->getBlockPositions();

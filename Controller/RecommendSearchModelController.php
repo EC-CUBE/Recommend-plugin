@@ -17,10 +17,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Eccube\Controller\AbstractController;
 use Eccube\Repository\CategoryRepository;
 use Eccube\Repository\ProductRepository;
-use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * Class RecommendSearchModelController.
@@ -60,7 +61,7 @@ class RecommendSearchModelController extends AbstractController
      * @Route("/%eccube_admin_route%/plugin/recommend/search/product/page/{page_no}", requirements={"page_no" = "\d+"}, name="plugin_recommend_search_product_page")
      * @Template("@Recommend4/admin/search_product.twig")
      */
-    public function searchProduct(Request $request, $page_no = null, Paginator $paginator)
+    public function searchProduct(Request $request, $page_no = null, PaginatorInterface $paginator)
     {
         if (!$request->isXmlHttpRequest()) {
             return [];
