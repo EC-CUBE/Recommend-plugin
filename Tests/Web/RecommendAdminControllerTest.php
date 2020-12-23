@@ -19,7 +19,9 @@ use Eccube\Entity\Product;
 use Eccube\Repository\Master\ProductStatusRepository;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
+use Plugin\Recommend4\Entity\RecommendProduct;
 use Plugin\Recommend4\Repository\RecommendProductRepository;
+
 
 /**
  * Class RecommendAdminControllerTest.
@@ -46,8 +48,8 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         parent::setUp();
         $this->deleteAllRows(['plg_recommend_product']);
 
-        $this->productRepo = $this->container->get(ProductRepository::class);
-        $this->recommendProductRepository = $this->container->get(RecommendProductRepository::class);
+        $this->productRepo = $this->entityManager->getRepository(Product::class);
+        $this->recommendProductRepository = $this->entityManager->getRepository(RecommendProduct::class);
 
         // recommend for product 1 with rank 1
         $this->Recommend1 = $this->initRecommendData(1, 1);
@@ -225,7 +227,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     {
         /** @var Product $Product */
         $Product = $this->productRepo->findOneBy(['name' => '彩のジェラートCUBE']);
-        $Product->setStatus($this->container->get(ProductStatusRepository::class)->find(ProductStatus::DISPLAY_HIDE));
+        $Product->setStatus($this->entityManager->getRepository(ProductStatus::class)->find(ProductStatus::DISPLAY_HIDE));
         $this->entityManager->persist($Product);
         $this->entityManager->flush($Product);
 
