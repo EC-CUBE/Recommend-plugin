@@ -13,6 +13,7 @@
 {% extends '@admin/default_frame.twig' %}
 
 {% set menus = ['content', 'plugin_recommend'] %}
+{% set Config = repository('Plugin\\Recommend4\\Entity\\Config').get() %}
 
 {% block title %}{{ 'plugin_recommend.admin.index.title'|trans }}{% endblock %}
 {% block sub_title %}{{ 'plugin_recommend.admin.index.subtitle'|trans }}{% endblock %}
@@ -90,7 +91,9 @@
                                         <div class="col-auto"><strong>&nbsp;&nbsp;</strong></div>
                                         <div class="col-2"><strong>{{ 'plugin_recommend.admin.index.col2'|trans }}</strong></div>
                                         <div class="col-2"><strong>{{ 'plugin_recommend.admin.index.col3'|trans }}</strong></div>
+                                        {% if Config.option_use_comment != constant('Plugin\\Recommend4\\Entity\\Config::OPTION_COMMENT_NOT_USE') %}
                                         <div class="col-auto"><strong>{{ 'plugin_recommend.admin.index.col4'|trans }}</strong></div>
+                                        {% endif %}
                                         <div class="col"><strong></strong></div>
                                     </div>
                                 </li>
@@ -113,7 +116,9 @@
                                                     {% endif %}
                                                 </a>
                                             </div>
+                                            {% if Config.option_use_comment != constant('Plugin\\Recommend4\\Entity\\Config::OPTION_COMMENT_NOT_USE') %}
                                             <div class="col-6 d-flex">{{ RecommendProduct.comment|raw|nl2br }}</div>
+                                            {% endif %}
 
                                             <div class="col text-right">
                                                 <a href="{{ url('plugin_recommend_edit', { id : RecommendProduct.id }) }}"

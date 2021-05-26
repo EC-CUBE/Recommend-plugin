@@ -27,3 +27,8 @@ plugin_recommend.admin.edit.existed: この商品はすでにおすすめ商品�
 plugin_recommend.admin.edit.search: 商品の追加
 plugin_recommend.admin.edit.product_search.header: 商品検索
 plugin_recommend.admin.edit.product_search.button: 検索
+
+plugin_recommend.admin.config.option_use_comment.choice.default: 必須にする
+plugin_recommend.admin.config.option_use_comment.choice.not_required: 任意項目にする
+plugin_recommend.admin.config.option_use_comment.choice.not_use: 使用しない
+plugin_recommend.admin.config.option_use_comment.label: 説明文を使用するか
