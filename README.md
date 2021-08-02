@@ -1,7 +1,6 @@
 # おすすめ商品管理プラグイン
 
 [![CI for Recommend4](https://github.com/EC-CUBE/Recommend-plugin/actions/workflows/main.yml/badge.svg)](https://github.com/EC-CUBE/Recommend-plugin/actions/workflows/main.yml)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/10c271df-67d7-415d-9dad-6ef44e09741c/mini.png)](https://insight.sensiolabs.com/projects/10c271df-67d7-415d-9dad-6ef44e09741c)
 
 ## 概要
 サイトにおすすめ商品の一覧を追加することのできるプラグイン。  
