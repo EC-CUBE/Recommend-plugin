@@ -151,7 +151,7 @@ jobs:
       env:
         PLUGIN_CODE: ${{ matrix.plugin_code }}
       working-directory: 'ec-cube'
-      run: bin/phpunit app/Plugin/${PLUGIN_CODE}/Tests
+      run: bin/phpunit -c app/Plugin/${PLUGIN_CODE}/phpunit.xml.dist app/Plugin/${PLUGIN_CODE}/Tests
 
     - name: Run PHPUnit
       if: matrix.composer == 'v1'
@@ -161,7 +161,7 @@ jobs:
       run: |
         find app/Plugin/${PLUGIN_CODE}/Tests -name "*Test.php" | while read TESTCASE
         do
-          ./vendor/bin/phpunit --include-path vendor/kiy0taka/eccube4-test-fixer/src --loader 'Eccube\PHPUnit\Loader\Eccube4CompatTestSuiteLoader' ${TESTCASE}
+          ./vendor/bin/phpunit -c app/Plugin/${PLUGIN_CODE}/phpunit.xml.dist --include-path vendor/kiy0taka/eccube4-test-fixer/src --loader 'Eccube\PHPUnit\Loader\Eccube4CompatTestSuiteLoader' ${TESTCASE}
         done
 
     - name: Disable Plugin
