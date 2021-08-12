@@ -1,9 +1,6 @@
 # おすすめ商品管理プラグイン
 
-[![Build Status](https://travis-ci.org/EC-CUBE/Recommend-plugin.svg?branch=master)](https://travis-ci.org/EC-CUBE/Recommend-plugin)
-[![Build status](https://ci.appveyor.com/api/projects/status/pql8xjdrsmp24teg?svg=true)](https://ci.appveyor.com/project/ECCUBE/recommend-plugin)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/10c271df-67d7-415d-9dad-6ef44e09741c/mini.png)](https://insight.sensiolabs.com/projects/10c271df-67d7-415d-9dad-6ef44e09741c)
-[![Coverage Status](https://coveralls.io/repos/github/EC-CUBE/Recommend-plugin/badge.svg)](https://coveralls.io/github/EC-CUBE/Recommend-plugin)
+[![CI for Recommend4](https://github.com/EC-CUBE/Recommend-plugin/actions/workflows/main.yml/badge.svg)](https://github.com/EC-CUBE/Recommend-plugin/actions/workflows/main.yml)
 
 ## 概要
 サイトにおすすめ商品の一覧を追加することのできるプラグイン。  

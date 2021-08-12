@@ -13,10 +13,12 @@
 
 namespace Plugin\Recommend4\Tests\Repository;
 
+use Eccube\Entity\Product;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\Recommend4\Entity\RecommendProduct;
 use Plugin\Recommend4\Repository\RecommendProductRepository;
+
 
 /**
  * Class RecommendRepositoryTest.
@@ -50,8 +52,8 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     {
         parent::setUp();
         $this->deleteAllRows(['plg_recommend_product']);
-        $this->recommendProductRepository = $this->container->get(RecommendProductRepository::class);
-        $this->productRepository = $this->container->get(ProductRepository::class);
+        $this->recommendProductRepository = $this->entityManager->getRepository(RecommendProduct::class);
+        $this->productRepository = $this->entityManager->getRepository(Product::class);
 
         // recommend for product 1 with rank 1
         $this->Recommend = $this->initRecommendData(1, 1);
