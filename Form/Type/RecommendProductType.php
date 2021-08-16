@@ -15,6 +15,8 @@ namespace Plugin\Recommend4\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
+use Plugin\Recommend4\Entity\Config;
+use Plugin\Recommend4\Repository\ConfigRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -43,15 +45,25 @@ class RecommendProductType extends AbstractType
     private $entityManager;
 
     /**
+     * @var \Plugin\Recommend4\Entity\Config|null
+     */
+    private $Config;
+
+    /**
      * RecommendProductType constructor.
      *
      * @param EccubeConfig $eccubeConfig
      * @param EntityManagerInterface $entityManager
+     * @param ConfigRepository $configRepository
      */
-    public function __construct(EccubeConfig $eccubeConfig, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EccubeConfig $eccubeConfig,
+        EntityManagerInterface $entityManager,
+        ConfigRepository $configRepository
+    ) {
         $this->eccubeConfig = $eccubeConfig;
         $this->entityManager = $entityManager;
+        $this->Config = $configRepository->get();
     }
 
     /**
@@ -67,22 +79,33 @@ class RecommendProductType extends AbstractType
                 'label' => 'plugin_recommend.admin.edit.product',
                 'required' => false,
                 'attr' => ['readonly' => 'readonly'],
-            ])
-            ->add('comment', TextareaType::class, [
-                'label' => 'plugin_recommend.admin.edit.comment',
-                'required' => true,
-                'trim' => true,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length([
-                        'max' => $this->eccubeConfig['plugin_recommend.text_area_len'],
-                    ]),
-                ],
-                'attr' => [
-                    'maxlength' => $this->eccubeConfig['plugin_recommend.text_area_len'],
-                    'placeholder' => 'plugin_recommend.admin.type.comment.placeholder',
-                ],
             ]);
+
+        if ($this->Config->getOptionUseComment() != Config::OPTION_COMMENT_NOT_USE) {
+            $required = false;
+            $constraints = [
+                new Assert\Length([
+                    'max' => $this->eccubeConfig['plugin_recommend.text_area_len'],
+                ]),
+            ];
+
+            if ($this->Config->getOptionUseComment() == Config::OPTION_COMMENT_DEFAULT) {
+                $required = true;
+                $constraints[] = new Assert\NotBlank();
+            }
+
+            $builder
+                ->add('comment', TextareaType::class, [
+                    'label' => 'plugin_recommend.admin.edit.comment',
+                    'required' => $required,
+                    'trim' => true,
+                    'constraints' => $constraints,
+                    'attr' => [
+                        'maxlength' => $this->eccubeConfig['plugin_recommend.text_area_len'],
+                        'placeholder' => 'plugin_recommend.admin.type.comment.placeholder',
+                    ],
+                ]);
+        }
 
         $builder->add(
             $builder

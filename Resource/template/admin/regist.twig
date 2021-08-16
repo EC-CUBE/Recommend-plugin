@@ -118,6 +118,7 @@
                                     <div id="warning" class="text-info"></div>
                                 </div>
                             </div>
+                            {% if form.comment is defined %}
                             {# コメント #}
                             <div class="row">
                                 <div class="col-3">{{ form_label(form.comment) }}</div>
@@ -127,6 +128,7 @@
                                     <p class="text-muted" style="text-align: right">{{ 'plugin_recommend.admin.edit.comment.help'|trans({'%number%' : eccube_config['plugin_recommend.text_area_len']}) }}</p>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
 
                     </div>

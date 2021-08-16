@@ -23,6 +23,7 @@ use Eccube\Repository\BlockPositionRepository;
 use Eccube\Repository\BlockRepository;
 use Eccube\Repository\LayoutRepository;
 use Eccube\Repository\Master\DeviceTypeRepository;
+use Plugin\Recommend4\Entity\Config;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -84,6 +85,7 @@ class PluginManager extends AbstractPluginManager
             // pagelayoutの作成
             $this->createDataBlock($container);
         }
+        $this->createConfig($container);
     }
 
     /**
@@ -102,6 +104,7 @@ class PluginManager extends AbstractPluginManager
     public function update(array $meta = null, ContainerInterface $container)
     {
         $this->copyBlock($container);
+        $this->createConfig($container);
     }
 
     /**
@@ -226,5 +229,24 @@ class PluginManager extends AbstractPluginManager
         $templateDir = $container->getParameter('eccube_theme_front_dir');
         $file = new Filesystem();
         $file->remove($templateDir.'/Block/'.$this->blockFileName.'.twig');
+    }
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public function createConfig(ContainerInterface $container)
+    {
+        $entityManager = $container->get('doctrine.orm.entity_manager');
+        $Config = $entityManager->find(Config::class, 1);
+        if ($Config) {
+            return;
+        }
+
+        // プラグイン情報初期セット NULL
+        $Config = new Config();
+        $Config->setOptionUseComment(true);
+
+        $entityManager->persist($Config);
+        $entityManager->flush();
     }
 }

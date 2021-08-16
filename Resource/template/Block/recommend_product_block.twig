@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
 #}
 {% set recommend_products = repository('Plugin\\Recommend4\\Entity\\RecommendProduct').getRecommendProduct %}
+{% set Config = repository('Plugin\\Recommend4\\Entity\\Config').get() %}
 
 <!-- ▼item_list▼ -->
 <div class="ec-shelfRole">
@@ -15,7 +16,9 @@
             <li class="ec-shelfGrid__item">
                 <a href="{{ url('product_detail', {'id': RecommendProduct.Product.id}) }}">
                     <img src="{{ asset(RecommendProduct.Product.mainFileName|no_image_product, "save_image") }}">
-                    <p>{{ RecommendProduct.comment|raw|nl2br }}</p>
+                    {% if Config.option_use_comment != constant('Plugin\\Recommend4\\Entity\\Config::OPTION_COMMENT_NOT_USE') %}
+                        <p>{{ RecommendProduct.comment|raw|nl2br }}</p>
+                    {% endif %}
                     <dl>
                         <dt class="item_name">{{ RecommendProduct.Product.name }}</dt>
                         <dd class="item_price">
