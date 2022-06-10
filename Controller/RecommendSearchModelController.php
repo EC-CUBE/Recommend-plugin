@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend4\Controller;
+namespace Plugin\Recommend42\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Eccube\Controller\AbstractController;
@@ -59,7 +59,7 @@ class RecommendSearchModelController extends AbstractController
      * @return array
      * @Route("/%eccube_admin_route%/plugin/recommend/search/product", name="plugin_recommend_search_product")
      * @Route("/%eccube_admin_route%/plugin/recommend/search/product/page/{page_no}", requirements={"page_no" = "\d+"}, name="plugin_recommend_search_product_page")
-     * @Template("@Recommend4/admin/search_product.twig")
+     * @Template("@Recommend42/admin/search_product.twig")
      */
     public function searchProduct(Request $request, $page_no = null, PaginatorInterface $paginator)
     {

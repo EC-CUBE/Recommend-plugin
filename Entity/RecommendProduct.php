@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend4\Entity;
+namespace Plugin\Recommend42\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Entity\AbstractEntity;
@@ -24,7 +24,7 @@ use Eccube\Entity\Product;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discriminator_type", type="string", length=255)
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass="Plugin\Recommend4\Repository\RecommendProductRepository")
+ * @ORM\Entity(repositoryClass="Plugin\Recommend42\Repository\RecommendProductRepository")
  */
 class RecommendProduct extends AbstractEntity
 {

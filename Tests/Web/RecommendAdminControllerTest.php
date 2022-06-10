@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend4\Tests\Web;
+namespace Plugin\Recommend42\Tests\Web;
 
 use Eccube\Common\Constant;
 use Eccube\Entity\Master\ProductStatus;
@@ -19,8 +19,8 @@ use Eccube\Entity\Product;
 use Eccube\Repository\Master\ProductStatusRepository;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
-use Plugin\Recommend4\Entity\RecommendProduct;
-use Plugin\Recommend4\Repository\RecommendProductRepository;
+use Plugin\Recommend42\Entity\RecommendProduct;
+use Plugin\Recommend42\Repository\RecommendProductRepository;
 
 
 /**
@@ -43,7 +43,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * please ensure have 1 or more order in database before testing.
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->deleteAllRows(['plg_recommend_product']);
@@ -397,14 +397,14 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
      * @param $productId
      * @param $rank
      *
-     * @return \Plugin\Recommend4\Entity\RecommendProduct
+     * @return \Plugin\Recommend42\Entity\RecommendProduct
      */
     private function initRecommendData($productId, $rank)
     {
         $dateTime = new \DateTime();
         $fake = $this->getFaker();
 
-        $Recommend = new \Plugin\Recommend4\Entity\RecommendProduct();
+        $Recommend = new \Plugin\Recommend42\Entity\RecommendProduct();
         $Recommend->setComment($fake->word);
         $Recommend->setProduct($this->productRepo->find($productId));
         $Recommend->setSortno($rank);

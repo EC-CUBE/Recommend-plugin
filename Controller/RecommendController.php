@@ -11,14 +11,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend4\Controller;
+namespace Plugin\Recommend42\Controller;
 
 use Eccube\Controller\AbstractController;
 use Eccube\Form\Type\Admin\SearchProductType;
-use Plugin\Recommend4\Entity\RecommendProduct;
-use Plugin\Recommend4\Form\Type\RecommendProductType;
-use Plugin\Recommend4\Repository\RecommendProductRepository;
-use Plugin\Recommend4\Service\RecommendService;
+use Plugin\Recommend42\Entity\RecommendProduct;
+use Plugin\Recommend42\Form\Type\RecommendProductType;
+use Plugin\Recommend42\Repository\RecommendProductRepository;
+use Plugin\Recommend42\Service\RecommendService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -60,7 +60,7 @@ class RecommendController extends AbstractController
      *
      * @return array
      * @Route("/%eccube_admin_route%/plugin/recommend", name="plugin_recommend_list")
-     * @Template("@Recommend4/admin/index.twig")
+     * @Template("@Recommend42/admin/index.twig")
      */
     public function index(Request $request)
     {
@@ -83,7 +83,7 @@ class RecommendController extends AbstractController
      * @return array|RedirectResponse
      * @Route("/%eccube_admin_route%/plugin/recommend/new", name="plugin_recommend_new")
      * @Route("/%eccube_admin_route%/plugin/recommend/{id}/edit", name="plugin_recommend_edit", requirements={"id" = "\d+"})
-     * @Template("@Recommend4/admin/regist.twig")
+     * @Template("@Recommend42/admin/regist.twig")
      */
     public function edit(Request $request, $id = null)
     {
