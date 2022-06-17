@@ -61,7 +61,7 @@ class RecommendSearchModelController extends AbstractController
      * @Route("/%eccube_admin_route%/plugin/recommend/search/product/page/{page_no}", requirements={"page_no" = "\d+"}, name="plugin_recommend_search_product_page")
      * @Template("@Recommend42/admin/search_product.twig")
      */
-    public function searchProduct(Request $request, $page_no = null, PaginatorInterface $paginator)
+    public function searchProduct(Request $request, PaginatorInterface $paginator, $page_no = null)
     {
         if (!$request->isXmlHttpRequest()) {
             return [];
