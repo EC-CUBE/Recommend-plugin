@@ -65,7 +65,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     {
         $this->deleteAllRows(['plg_recommend_product']);
         $crawler = $this->client->request('GET', $this->generateUrl('plugin_recommend_list'));
-        $this->assertContains('0 件', $crawler->html());
+        $this->assertStringContainsString('0 件', $crawler->html());
     }
 
     /**
@@ -81,7 +81,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         }
 
         $crawler = $this->client->request('GET', $this->generateUrl('plugin_recommend_list'));
-        $this->assertContains('11 件', $crawler->html());
+        $this->assertStringContainsString('11 件', $crawler->html());
     }
 
     /**
@@ -90,7 +90,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     public function testRecommendCreate()
     {
         $crawler = $this->client->request('GET', $this->generateUrl('plugin_recommend_new'));
-        $this->assertContains('おすすめ商品管理', $crawler->html());
+        $this->assertStringContainsString('おすすめ商品管理', $crawler->html());
     }
 
     /**
@@ -109,8 +109,8 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
             ]
         );
 
-        $this->assertContains('入力されていません。', $crawler->filter('.card-body')->html());
-        $this->assertContains('商品を追加してください。', $crawler->filter('.card-body')->html());
+        $this->assertStringContainsString('入力されていません。', $crawler->filter('.card-body')->html());
+        $this->assertStringContainsString('商品を追加してください。', $crawler->filter('.card-body')->html());
     }
 
     /**
@@ -130,7 +130,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
             ]
         );
 
-        $this->assertContains('入力されていません。', $crawler->filter('.card-body')->html());
+        $this->assertStringContainsString('入力されていません。', $crawler->filter('.card-body')->html());
     }
 
     /**
@@ -150,7 +150,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
             ]
         );
 
-        $this->assertContains('商品を追加してください。', $crawler->filter('.card-body')->html());
+        $this->assertStringContainsString('商品を追加してください。', $crawler->filter('.card-body')->html());
     }
 
     /**
@@ -172,7 +172,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
             ]
         );
 
-        $this->assertContains('値が長すぎます。4000文字以内でなければなりません。', $crawler->filter('.card-body')->html());
+        $this->assertStringContainsString('値が長すぎます。4000文字以内でなければなりません。', $crawler->filter('.card-body')->html());
     }
 
     /**
@@ -217,7 +217,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         );
 
         $productList = $crawler->html();
-        $this->assertContains('彩のジェラートCUBE', $productList);
+        $this->assertStringContainsString('彩のジェラートCUBE', $productList);
     }
 
     /**
@@ -240,7 +240,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         );
 
         $productList = $crawler->html();
-        $this->assertContains('彩のジェラートCUBE', $productList);
+        $this->assertStringContainsString('彩のジェラートCUBE', $productList);
     }
 
     /**
@@ -257,7 +257,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         );
 
         $productList = $crawler->html();
-        $this->assertContains('彩のジェラートCUBE', $productList);
+        $this->assertStringContainsString('彩のジェラートCUBE', $productList);
     }
 
     /**
@@ -274,7 +274,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         );
 
         $productList = $crawler->html();
-        $this->assertContains('彩のジェラートCUBE', $productList);
+        $this->assertStringContainsString('彩のジェラートCUBE', $productList);
     }
 
     /**
@@ -291,7 +291,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         );
 
         $productList = $crawler->html();
-        $this->assertContains('彩のジェラートCUBE', $productList);
+        $this->assertStringContainsString('彩のジェラートCUBE', $productList);
     }
 
     /**
@@ -303,7 +303,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
 
         $crawler = $this->client->request('GET', $this->generateUrl('plugin_recommend_edit', ['id' => $recommendId]));
 
-        $this->assertContains($this->Recommend2->getProduct()->getName(), $crawler->html());
+        $this->assertStringContainsString($this->Recommend2->getProduct()->getName(), $crawler->html());
     }
 
     /**
