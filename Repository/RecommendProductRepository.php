@@ -11,12 +11,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend4\Repository;
+namespace Plugin\Recommend42\Repository;
 
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Repository\AbstractRepository;
-use Plugin\Recommend4\Entity\RecommendProduct;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Plugin\Recommend42\Entity\RecommendProduct;
+use Doctrine\Persistence\ManagerRegistry; 
 
 /**
  * RecommendProductRepository.
@@ -29,9 +29,9 @@ class RecommendProductRepository extends AbstractRepository
     /**
      * CouponRepository constructor.
      *
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, RecommendProduct::class);
     }
