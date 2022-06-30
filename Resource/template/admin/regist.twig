@@ -91,11 +91,9 @@
                                                 <img src="{{ asset(Product.mainFileName|no_image_product, "save_image") }}" style="max-width: 135px;" id="product_image_img"/>
                                             </a>
                                         </div>
-                                        <br>
                                         <p id="product_name">
                                             {{ Product.name }}
                                         </p>
-                                        <br>
                                         <p id="product_code">
                                             {{ Product.code_min }}
                                             {% if Product.code_min != Product.code_max %} ～ {{ Product.code_max }}
@@ -111,7 +109,7 @@
                                         <p id="product_code" class="d-none"></p>
                                     {% endif %}
 
-                                    <a id="showSearchProductModal" class="btn btn-ec-regular mr-2" data-toggle="modal" data-target="#searchProductModal">{{ 'plugin_recommend.admin.edit.search'|trans }}</a>
+                                    <a id="showSearchProductModal" class="btn btn-ec-regular mr-2" data-bs-toggle="modal" data-bs-target="#searchProductModal">{{ 'plugin_recommend.admin.edit.search'|trans }}</a>
                                     <div class="clearfix"></div>
                                     {{ form_widget(form.Product) }}
                                     {{ form_errors(form.Product) }}
@@ -137,14 +135,14 @@
                         <div class="row justify-content-between align-items-center">
                             <div class="col-6">
                                 <div class="c-conversionArea__leftBlockItem">
-                                    <a class="c-beseLink" href="{{ url('plugin_recommend_list') }}">
+                                    <a class="c-baseLink" href="{{ url('plugin_recommend_list') }}">
                                         <i class="fa fa-backward" aria-hidden="true"></i><span>{{ 'common.back'|trans }}</span></a>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="row align-items-center justify-content-end">
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-primary btn-block btn-lg">{{ 'admin.common.save'|trans }}</button>
+                                        <button type="submit" class="btn btn-ec-conversion px-5">{{ 'admin.common.save'|trans }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -166,20 +164,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="searchProductModalLabel">{{ 'plugin_recommend.admin.edit.product_search.header'|trans }}</h4>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         {{ form_widget(searchProductModalForm.id, { attr : { placeholder : 'admin.product.product_name_and_code'|trans } }) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         {{ form_widget(searchProductModalForm.category_id) }}
                     </div>
-                    <div class="form-group text-center">
-                        <button type="button" id="searchProductModalButton" class="btn btn-primary" >{{ 'plugin_recommend.admin.edit.product_search.button'|trans }}</button>
+                    <div class="form-group text-center mb-3">
+                        <button type="button" id="searchProductModalButton" class="btn btn-ec-conversion" >{{ 'plugin_recommend.admin.edit.product_search.button'|trans }}</button>
                     </div>
                     <div class="form-group" id="searchProductModalList">
                     </div>
