@@ -113,7 +113,7 @@
                                                     {% endif %}
                                                 </a>
                                             </div>
-                                            <div class="col-6 d-flex">{{ RecommendProduct.comment|raw|nl2br }}</div>
+                                            <div class="col-6 d-flex">{{ RecommendProduct.comment|raw|purify|nl2br }}</div>
 
                                             <div class="col text-right">
                                                 <a href="{{ url('plugin_recommend_edit', { id : RecommendProduct.id }) }}"
