@@ -113,21 +113,21 @@
                                                     {% endif %}
                                                 </a>
                                             </div>
-                                            <div class="col-6 d-flex">{{ RecommendProduct.comment|raw|nl2br }}</div>
+                                            <div class="col-6 d-flex">{{ RecommendProduct.comment|raw|purify|nl2br }}</div>
 
                                             <div class="col text-right">
                                                 <a href="{{ url('plugin_recommend_edit', { id : RecommendProduct.id }) }}"
                                                    class="btn btn-ec-actionIcon mr-3 action-edit"
-                                                   data-toggle="tooltip"
-                                                   data-placement="top"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="top"
                                                    title="{{ 'admin.common.edit'|trans }}"><i
                                                             class="fa fa-pencil fa-lg text-secondary"></i></a>
                                                 <a
                                                         class="btn btn-ec-actionIcon mr-3"
-                                                        data-toggle="modal"
-                                                        data-target="#confirmModal-{{ RecommendProduct.id }}"
-                                                        data-tooltip="tooltip"
-                                                        data-placement="top"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#confirmModal-{{ RecommendProduct.id }}"
+                                                        data-bs-tooltip="tooltip"
+                                                        data-bs-placement="top"
                                                         title="{{ 'admin.common.delete'|trans }}"><i
                                                             class="fa fa-close fa-lg text-secondary"></i></a>
                                             </div>
@@ -140,8 +140,7 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title font-weight-bold">
                                                                 {{ 'plugin_recommend.admin.index.delete.confirm'|trans }}</h5>
-                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                                            </button>
+                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body text-left">
                                                             <p class="text-left">
@@ -149,7 +148,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button class="btn btn-ec-sub" type="button"
-                                                                    data-dismiss="modal">{{ 'common.cancel'|trans }}
+                                                                    data-bs-dismiss="modal">{{ 'common.cancel'|trans }}
                                                             </button>
                                                             <a href="{{ url('plugin_recommend_delete', {'id' : RecommendProduct.id}) }}" class="btn btn-ec-delete" data-confirm="false" {{ csrf_token_for_anchor() }} data-method="delete">
                                                                 {{ 'common.delete'|trans }}
