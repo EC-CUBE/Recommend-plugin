@@ -109,7 +109,7 @@
                                         <p id="product_code" class="d-none"></p>
                                     {% endif %}
 
-                                    <a id="showSearchProductModal" class="btn btn-ec-regular mr-2" data-bs-toggle="modal" data-bs-target="#searchProductModal">{{ 'plugin_recommend.admin.edit.search'|trans }}</a>
+                                    <a id="showSearchProductModal" class="btn btn-ec-regular me-2" data-bs-toggle="modal" data-bs-target="#searchProductModal">{{ 'plugin_recommend.admin.edit.search'|trans }}</a>
                                     <div class="clearfix"></div>
                                     {{ form_widget(form.Product) }}
                                     {{ form_errors(form.Product) }}
@@ -167,16 +167,16 @@
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         {{ form_widget(searchProductModalForm.id, { attr : { placeholder : 'admin.product.product_name_and_code'|trans } }) }}
                     </div>
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         {{ form_widget(searchProductModalForm.category_id) }}
                     </div>
-                    <div class="form-group text-center mb-3">
+                    <div class="text-center mb-3">
                         <button type="button" id="searchProductModalButton" class="btn btn-ec-conversion" >{{ 'plugin_recommend.admin.edit.product_search.button'|trans }}</button>
                     </div>
-                    <div class="form-group" id="searchProductModalList">
+                    <div id="searchProductModalList">
                     </div>
                 </div>
             </div>
