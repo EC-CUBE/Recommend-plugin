@@ -1,6 +1,6 @@
 {
     "name": "ec-cube/recommend42",
-    "version": "4.2.1",
+    "version": "4.2.2",
     "description": "おすすめ商品管理プラグイン",
     "type": "eccube-plugin",
     "require": {
