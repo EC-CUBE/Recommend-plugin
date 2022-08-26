@@ -77,7 +77,7 @@
                     </td>
                     <td class="text-end">
                         <button onclick="fnSelectProduct($(this).parent().parent(), '{{ Product.id }}', '{{ Product.name|escape('js') }}', '{{ url('admin_product_product_edit', { id : Product.id }) }}', '{{ asset(Product.mainFileName|no_image_product, 'save_image') }}', '{{ Product.code_min }}', '{{ Product.code_max }}')" type="button" class="btn btn-default btn-sm">
-                            決定
+                            <i class="fa fa-plus fa-lg fw-bold text-secondary"></i>
                         </button>
                     </td>
                 </tr>
