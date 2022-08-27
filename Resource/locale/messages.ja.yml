@@ -13,7 +13,8 @@ plugin_recommend.admin.index.total_num: <strong>%number% 件</strong> が該当�
 plugin_recommend.admin.index.col2: 商品画像
 plugin_recommend.admin.index.col3: 商品名
 plugin_recommend.admin.index.col4: 説明文
-plugin_recommend.admin.index.delete.confirm: このおすすめ商品を削除しても宜しいですか？
+plugin_recommend.admin.index.delete__confirm_title: このおすすめ商品を削除します
+plugin_recommend.admin.index.delete__confirm_message: このおすすめ商品を削除しても宜しいですか？
 plugin_recommend.admin.notice: 項目の順番はドラッグ＆ドロップでも変更可能です。
 plugin_recommend.admin.new: おすすめ商品を新規登録
 
