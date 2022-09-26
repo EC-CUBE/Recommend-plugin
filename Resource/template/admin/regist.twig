@@ -37,6 +37,7 @@
             );
 
             $('#searchProductModalButton').on('click', function() {
+                var xhr = new XMLHttpRequest();
                 var list = $('#searchProductModalList');
                 list.children().remove();
                 $.ajax({
@@ -46,11 +47,17 @@
                         'id' : $('#admin_search_product_id').val(),
                         'category_id' : $('#admin_search_product_category_id').val()
                     },
+                    xhr: function() {
+                            return xhr;
+                        },
                     url: '{{ url('plugin_recommend_search_product') }}',
                     success: function(data) {
                         // モーダルに結果を書き出し.
-                        $('#searchProductModalList').html(data);
-
+                        if (xhr.responseURL === '{{ url('admin_login') }}') {
+                            alert('{{ 'plugin_recommend.admin.common.failed_to_load'|trans }}');
+                        } else {
+                            $('#searchProductModalList').html(data);
+                        }
                     },
                     error: function() {
                         alert('Search product failed.');
