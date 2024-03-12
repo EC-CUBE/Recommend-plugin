@@ -13,6 +13,7 @@
 
 namespace Plugin\Recommend42;
 
+use Eccube\Common\EccubeConfig;
 use Eccube\Application;
 use Eccube\Entity\Block;
 use Eccube\Entity\BlockPosition;
@@ -23,7 +24,7 @@ use Eccube\Repository\BlockPositionRepository;
 use Eccube\Repository\BlockRepository;
 use Eccube\Repository\LayoutRepository;
 use Eccube\Repository\Master\DeviceTypeRepository;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -206,7 +207,7 @@ class PluginManager extends AbstractPluginManager
      */
     private function copyBlock(ContainerInterface $container)
     {
-        $templateDir = $container->getParameter('eccube_theme_front_dir');
+        $templateDir = $container->get(EccubeConfig::class)->get('eccube_theme_front_dir');
         // ファイルコピー
         $file = new Filesystem();
 
@@ -223,7 +224,7 @@ class PluginManager extends AbstractPluginManager
      */
     private function removeBlock(ContainerInterface $container)
     {
-        $templateDir = $container->getParameter('eccube_theme_front_dir');
+        $templateDir = $container->get(EccubeConfig::class)->get('eccube_theme_front_dir');
         $file = new Filesystem();
         $file->remove($templateDir.'/Block/'.$this->blockFileName.'.twig');
     }
