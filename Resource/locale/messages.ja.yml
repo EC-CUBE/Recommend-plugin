@@ -27,3 +27,5 @@ plugin_recommend.admin.edit.existed: この商品はすでにおすすめ商品�
 plugin_recommend.admin.edit.search: 商品の追加
 plugin_recommend.admin.edit.product_search.header: 商品検索
 plugin_recommend.admin.edit.product_search.button: 検索
+
+plugin_recommend.admin.common.failed_to_load: 読み込みに失敗しました
