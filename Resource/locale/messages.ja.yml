@@ -24,6 +24,6 @@ plugin_recommend.admin.edit.product: 商品
 plugin_recommend.admin.edit.comment: 説明文
 plugin_recommend.admin.edit.comment.help: （最大%number%文字）
 plugin_recommend.admin.edit.existed: この商品はすでにおすすめ商品として登録されています。
-plugin_recommend.admin.edit.search: 商品の追加
+plugin_recommend.admin.edit.search: 商品の選択
 plugin_recommend.admin.edit.product_search.header: 商品検索
 plugin_recommend.admin.edit.product_search.button: 検索
