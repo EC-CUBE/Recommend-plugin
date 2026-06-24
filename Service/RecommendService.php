@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,6 +13,8 @@
 
 namespace Plugin\Recommend44\Service;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Plugin\Recommend44\Entity\RecommendProduct;
 use Plugin\Recommend44\Repository\RecommendProductRepository;
 
@@ -22,18 +24,12 @@ use Plugin\Recommend44\Repository\RecommendProductRepository;
 class RecommendService
 {
     /**
-     * @var RecommendProductRepository
-     */
-    private $recommendProductRepository;
-
-    /**
      * RecommendService constructor.
      *
      * @param RecommendProductRepository $recommendProductRepository
      */
-    public function __construct(RecommendProductRepository $recommendProductRepository)
+    public function __construct(private readonly RecommendProductRepository $recommendProductRepository)
     {
-        $this->recommendProductRepository = $recommendProductRepository;
     }
 
     /**
@@ -45,7 +41,7 @@ class RecommendService
      *
      * @throws \Exception
      */
-    public function createRecommend($data)
+    public function createRecommend($data): bool
     {
         // おすすめ商品詳細情報を生成する
         $Recommend = $this->newRecommend($data);
@@ -62,7 +58,7 @@ class RecommendService
      *
      * @throws \Exception
      */
-    public function updateRecommend($data)
+    public function updateRecommend($data): bool
     {
         // おすすめ商品情報を取得する
         $Recommend = $this->recommendProductRepository->find($data['id']);
@@ -85,17 +81,17 @@ class RecommendService
      *
      * @return RecommendProduct
      *
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    protected function newRecommend($data)
+    protected function newRecommend($data): RecommendProduct
     {
         $rank = $this->recommendProductRepository->getMaxRank();
 
         $Recommend = new RecommendProduct();
         $Recommend->setComment($data['comment']);
         $Recommend->setProduct($data['Product']);
-        $Recommend->setSortno(($rank ? $rank : 0) + 1);
+        $Recommend->setSortno(($rank ?: 0) + 1);
         $Recommend->setVisible(true);
 
         return $Recommend;

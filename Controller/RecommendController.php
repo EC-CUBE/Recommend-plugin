@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -32,25 +32,13 @@ use Symfony\Component\Routing\Attribute\Route;
 class RecommendController extends AbstractController
 {
     /**
-     * @var RecommendProductRepository
-     */
-    private $recommendProductRepository;
-
-    /**
-     * @var RecommendService
-     */
-    private $recommendService;
-
-    /**
      * RecommendController constructor.
      *
      * @param RecommendProductRepository $recommendProductRepository
      * @param RecommendService $recommendService
      */
-    public function __construct(RecommendProductRepository $recommendProductRepository, RecommendService $recommendService)
+    public function __construct(private readonly RecommendProductRepository $recommendProductRepository, private readonly RecommendService $recommendService)
     {
-        $this->recommendProductRepository = $recommendProductRepository;
-        $this->recommendService = $recommendService;
     }
 
     /**
@@ -58,7 +46,7 @@ class RecommendController extends AbstractController
      */
     #[Route(path: '/%eccube_admin_route%/plugin/recommend', name: 'plugin_recommend_list')]
     #[Template('@Recommend44/admin/index.twig')]
-    public function index(Request $request): array
+    public function index(): array
     {
         $pagination = $this->recommendProductRepository->getRecommendList();
 
@@ -74,9 +62,9 @@ class RecommendController extends AbstractController
      * @param Request     $request
      * @param int         $id
      *
-     * @throws \Exception
-     *
      * @return array|RedirectResponse
+     *
+     * @throws \Exception
      */
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/new', name: 'plugin_recommend_new')]
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/edit', name: 'plugin_recommend_edit', requirements: ['id' => '\d+'])]
@@ -151,12 +139,12 @@ class RecommendController extends AbstractController
      * @param Request     $request
      * @param RecommendProduct $RecommendProduct
      *
-     * @throws \Exception
+     * @return RedirectResponse
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Exception
      */
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/delete', name: 'plugin_recommend_delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
-    public function delete(Request $request, RecommendProduct $RecommendProduct)
+    public function delete(RecommendProduct $RecommendProduct)
     {
         // Valid token
         $this->isTokenValid();
@@ -177,9 +165,9 @@ class RecommendController extends AbstractController
      *
      * @param Request     $request
      *
-     * @throws \Exception
-     *
      * @return Response
+     *
+     * @throws \Exception
      */
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/sort_no/move', name: 'plugin_recommend_rank_move')]
     public function moveRank(Request $request)
@@ -200,7 +188,7 @@ class RecommendController extends AbstractController
      *
      * @return array
      */
-    protected function registerView($parameters = [])
+    protected function registerView(array $parameters = []): array
     {
         // 商品検索フォーム
         $searchProductModalForm = $this->formFactory->createBuilder(SearchProductType::class)->getForm();

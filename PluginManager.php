@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,17 +13,13 @@
 
 namespace Plugin\Recommend44;
 
-use Eccube\Common\EccubeConfig;
 use Eccube\Application;
+use Eccube\Common\EccubeConfig;
 use Eccube\Entity\Block;
 use Eccube\Entity\BlockPosition;
 use Eccube\Entity\Layout;
 use Eccube\Entity\Master\DeviceType;
 use Eccube\Plugin\AbstractPluginManager;
-use Eccube\Repository\BlockPositionRepository;
-use Eccube\Repository\BlockRepository;
-use Eccube\Repository\LayoutRepository;
-use Eccube\Repository\Master\DeviceTypeRepository;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -35,17 +31,17 @@ class PluginManager extends AbstractPluginManager
     /**
      * @var string コピー元ブロックファイル
      */
-    private $originBlock;
+    private string $originBlock;
 
     /**
      * @var string ブロック名
      */
-    private $blockName = 'おすすめ商品';
+    private string $blockName = 'おすすめ商品';
 
     /**
      * @var string ブロックファイル名
      */
-    private $blockFileName = 'recommend_product_block';
+    private string $blockFileName = 'recommend_product_block';
 
     /**
      * PluginManager constructor.
@@ -58,8 +54,8 @@ class PluginManager extends AbstractPluginManager
 
     /**
      * @param null $meta
-     * @param Application|null $app
      * @param ContainerInterface $container
+     * @param Application|null $app
      *
      * @throws \Exception
      */
@@ -176,7 +172,7 @@ class PluginManager extends AbstractPluginManager
     {
         $em = $container->get('doctrine')->getManager();
         // Blockの取得(file_nameはアプリケーションの仕組み上必ずユニーク)
-        /** @var \Eccube\Entity\Block $Block */
+        /** @var Block $Block */
         $Block = $em->getRepository(Block::class)->findOneBy(['file_name' => $this->blockFileName]);
 
         if (!$Block) {
@@ -186,7 +182,7 @@ class PluginManager extends AbstractPluginManager
         try {
             // BlockPositionの削除
             $blockPositions = $Block->getBlockPositions();
-            /** @var \Eccube\Entity\BlockPosition $BlockPosition */
+            /** @var BlockPosition $BlockPosition */
             foreach ($blockPositions as $BlockPosition) {
                 $Block->removeBlockPosition($BlockPosition);
                 $em->remove($BlockPosition);

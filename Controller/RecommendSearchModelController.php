@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,11 +17,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Eccube\Controller\AbstractController;
 use Eccube\Repository\CategoryRepository;
 use Eccube\Repository\ProductRepository;
+use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-
 
 /**
  * Class RecommendSearchModelController.
@@ -29,25 +29,13 @@ use Symfony\Component\Routing\Attribute\Route;
 class RecommendSearchModelController extends AbstractController
 {
     /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-
-    /**
-     * @var ProductRepository
-     */
-    private $productRepository;
-
-    /**
      * RecommendSearchModelController constructor.
      *
      * @param CategoryRepository $categoryRepository
      * @param ProductRepository $productRepository
      */
-    public function __construct(CategoryRepository $categoryRepository, ProductRepository $productRepository)
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly ProductRepository $productRepository, private readonly PaginatorInterface $paginator)
     {
-        $this->categoryRepository = $categoryRepository;
-        $this->productRepository = $productRepository;
     }
 
     /**
@@ -61,7 +49,7 @@ class RecommendSearchModelController extends AbstractController
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/search/product', name: 'plugin_recommend_search_product')]
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/search/product/page/{page_no}', requirements: ['page_no' => '\d+'], name: 'plugin_recommend_search_product_page')]
     #[Template('@Recommend44/admin/search_product.twig')]
-    public function searchProduct(Request $request, PaginatorInterface $paginator, $page_no = null)
+    public function searchProduct(Request $request, $page_no = null)
     {
         if (!$request->isXmlHttpRequest()) {
             return [];
@@ -74,7 +62,7 @@ class RecommendSearchModelController extends AbstractController
         if ('POST' === $request->getMethod()) {
             $page_no = 1;
             $searchData = [
-                'name' => trim($request->get('id')),
+                'name' => trim((string) $request->get('id')),
             ];
 
             if ($categoryId = $request->get('category_id')) {
@@ -92,7 +80,7 @@ class RecommendSearchModelController extends AbstractController
             }
         }
 
-        //set parameter
+        // set parameter
         $searchData['id'] = $searchData['name'];
 
         if (!empty($searchData['category_id'])) {
@@ -101,8 +89,8 @@ class RecommendSearchModelController extends AbstractController
 
         $qb = $this->productRepository->getQueryBuilderBySearchDataForAdmin($searchData);
 
-        /** @var \Knp\Component\Pager\Pagination\SlidingPagination $pagination */
-        $pagination = $paginator->paginate(
+        /** @var SlidingPagination $pagination */
+        $pagination = $this->paginator->paginate(
             $qb,
             $page_no,
             $pageCount,

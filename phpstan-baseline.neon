@@ -1,0 +1,433 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Eccube\\Entity\\AbstractEntity\:\:getId\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Controller/RecommendController.php
+
+		-
+			message: '#^Call to an undefined method Eccube\\Entity\\AbstractEntity\:\:getProduct\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Controller/RecommendController.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Controller\\RecommendController\:\:edit\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Controller/RecommendController.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Controller\\RecommendController\:\:index\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Controller/RecommendController.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Controller\\RecommendController\:\:registerView\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Controller/RecommendController.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Controller\\RecommendController\:\:registerView\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Controller/RecommendController.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$request$#'
+			identifier: parameter.notFound
+			count: 1
+			path: Controller/RecommendController.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Controller\\RecommendSearchModelController\:\:searchProduct\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Controller/RecommendSearchModelController.php
+
+		-
+			message: '#^PHPDoc tag @var contains generic class Doctrine\\Common\\Collections\\ArrayCollection but does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: Controller/RecommendSearchModelController.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$pagination contains generic class Knp\\Component\\Pager\\Pagination\\SlidingPagination but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: Controller/RecommendSearchModelController.php
+
+		-
+			message: '#^Property Plugin\\Recommend44\\Entity\\RecommendProduct\:\:\$visible type mapping mismatch\: property can contain bool\|null but database expects bool\.$#'
+			identifier: doctrine.columnType
+			count: 1
+			path: Entity/RecommendProduct.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Form\\Type\\RecommendProductType\:\:buildForm\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Form/Type/RecommendProductType.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Nav\:\:getNav\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Nav.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\PluginManager\:\:disable\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: PluginManager.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\PluginManager\:\:enable\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: PluginManager.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\PluginManager\:\:uninstall\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: PluginManager.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\PluginManager\:\:update\(\) has parameter \$meta with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: PluginManager.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: PluginManager.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$meta with type array\|null is not subtype of native type array\.$#'
+			identifier: parameter.phpDocType
+			count: 3
+			path: PluginManager.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$meta with type null is incompatible with native type array\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: PluginManager.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$app$#'
+			identifier: parameter.notFound
+			count: 1
+			path: PluginManager.php
+
+		-
+			message: '#^Call to an undefined method Eccube\\Entity\\AbstractEntity\:\:getSortno\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^Call to an undefined method Eccube\\Entity\\AbstractEntity\:\:setSortno\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^Class Plugin\\Recommend44\\Repository\\RecommendProductRepository extends generic class Eccube\\Repository\\AbstractRepository but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Repository\\RecommendProductRepository\:\:getRecommendProduct\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Repository\\RecommendProductRepository\:\:getRecommendProductIdAll\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Repository\\RecommendProductRepository\:\:moveRecommendRank\(\) has parameter \$arrRank with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Repository\\RecommendProductRepository\:\:moveRecommendRank\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^QueryBuilder\: \[Semantical Error\] line 0, col 13 near ''rp\) FROM Eccube\\Entity\\AbstractEntity''\: Error\: Class Eccube\\Entity\\AbstractEntity has no field or association named $#'
+			identifier: doctrine.dql
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^QueryBuilder\: \[Semantical Error\] line 0, col 14 near ''sort_no\) AS max_rank''\: Error\: Class Eccube\\Entity\\AbstractEntity has no field or association named sort_no$#'
+			identifier: doctrine.dql
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^QueryBuilder\: \[Semantical Error\] line 0, col 19 near ''Product\) as id''\: Error\: Class Eccube\\Entity\\AbstractEntity has no field or association named Product$#'
+			identifier: doctrine.dql
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^QueryBuilder\: \[Semantical Error\] line 0, col 69 near ''p WHERE rp\.visible''\: Error\: Class Eccube\\Entity\\AbstractEntity has no association named Product$#'
+			identifier: doctrine.dql
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^QueryBuilder\: \[Semantical Error\] line 0, col 97 near ''Product WHERE''\: Error\: Class Eccube\\Entity\\AbstractEntity has no field or association named Product$#'
+			identifier: doctrine.dql
+			count: 1
+			path: Repository/RecommendProductRepository.php
+
+		-
+			message: '#^Call to an undefined method Eccube\\Entity\\AbstractEntity\:\:setComment\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Service/RecommendService.php
+
+		-
+			message: '#^Call to an undefined method Eccube\\Entity\\AbstractEntity\:\:setProduct\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Service/RecommendService.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Service\\RecommendService\:\:createRecommend\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Service/RecommendService.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Service\\RecommendService\:\:newRecommend\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Service/RecommendService.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Service\\RecommendService\:\:updateRecommend\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Service/RecommendService.php
+
+		-
+			message: '#^Parameter \#1 \$RecommendProduct of method Plugin\\Recommend44\\Repository\\RecommendProductRepository\:\:saveRecommend\(\) expects Plugin\\Recommend44\\Entity\\RecommendProduct, Eccube\\Entity\\AbstractEntity given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Service/RecommendService.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:initRecommendData\(\) has parameter \$productId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:initRecommendData\(\) has parameter \$rank with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:testCountRecommend\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:testDeleteRecommend\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:testGetMaxRank\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:testGetRecommendList\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:testGetRecommendProduct\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:testGetRecommendProductIdAll\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Repository\\RecommendRepositoryTest\:\:testMoveRecommendRank\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Offset 0 does not exist on Plugin\\Recommend44\\Entity\\RecommendProduct\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: Tests/Repository/RecommendRepositoryTest.php
+
+		-
+			message: '#^Call to an undefined method Eccube\\Entity\\AbstractEntity\:\:getVisible\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:getRecommend\(\) has parameter \$productId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:initRecommendData\(\) has parameter \$productId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:initRecommendData\(\) has parameter \$rank with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testAjaxSearchProductCategory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testAjaxSearchProductValueCode\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testAjaxSearchProductValueId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testAjaxSearchPublicProduct\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testAjaxSearchUnpublicProduct\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendCreate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendDelete\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendEdit\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendEditExist\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendEditShow\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendList\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendListEmpty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendNew\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendNewComment\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendNewCommentOver\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendNewEmpty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Method Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:testRecommendNewProduct\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Property Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:\$Recommend1 has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php
+
+		-
+			message: '#^Property Plugin\\Recommend44\\Tests\\Web\\RecommendAdminControllerTest\:\:\$Recommend2 has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: Tests/Web/RecommendAdminControllerTest.php

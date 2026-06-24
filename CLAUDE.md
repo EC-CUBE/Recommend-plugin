@@ -63,6 +63,8 @@ docker compose exec ec-cube bash -lc \
   "cd app/Plugin/Recommend44 && /var/www/html/vendor/bin/phpstan analyse"
 ```
 
+phpstan は level 6。移行前から存在する型注釈不足や phpstan-doctrine の偽陽性は `phpstan-baseline.neon` に記録して grandfather しており（`includes` で取り込み）、`analyse` は green。**新規に追加するコードは level 6 で検査される**。baseline を再生成する場合は `--generate-baseline=phpstan-baseline.neon`。
+
 ## アーキテクチャ
 
 - **Entity** (`Entity/RecommendProduct.php`): `plg_recommend_product` テーブル。`#[ORM\*]` 属性 + 型付きプロパティ。`Product` との OneToOne、`visible` で論理削除、`sort_no` で並び順。

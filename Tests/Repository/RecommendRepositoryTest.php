@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,31 +19,18 @@ use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\Recommend44\Entity\RecommendProduct;
 use Plugin\Recommend44\Repository\RecommendProductRepository;
 
-
 /**
  * Class RecommendRepositoryTest.
  */
 class RecommendRepositoryTest extends AbstractAdminWebTestCase
 {
-    /**
-     * @var RecommendProductRepository
-     */
-    private $recommendProductRepository;
+    private ?RecommendProductRepository $recommendProductRepository = null;
 
-    /**
-     * @var ProductRepository
-     */
-    private $productRepository;
+    private ?ProductRepository $productRepository = null;
 
-    /**
-     * @var RecommendProduct
-     */
-    private $Recommend;
+    private ?RecommendProduct $Recommend = null;
 
-    /**
-     * @var RecommendProduct
-     */
-    private $Recommend2;
+    private ?RecommendProduct $Recommend2 = null;
 
     /**
      * Delete all Recommend for testing.
@@ -169,12 +156,12 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
      *
      * @return RecommendProduct
      */
-    private function initRecommendData($productId, $rank)
+    private function initRecommendData($productId, $rank): RecommendProduct
     {
         $dateTime = new \DateTime();
         $fake = $this->getFaker();
 
-        $Recommend = new \Plugin\Recommend44\Entity\RecommendProduct();
+        $Recommend = new RecommendProduct();
         $Recommend->setComment($fake->word);
         $Recommend->setProduct($this->productRepository->find($productId));
         $Recommend->setSortno($rank);

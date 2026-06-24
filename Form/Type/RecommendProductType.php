@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +15,9 @@ namespace Plugin\Recommend44\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
+use Eccube\Entity\Product;
+use Eccube\Form\DataTransformer\EntityToIdTransformer;
+use Plugin\Recommend44\Entity\RecommendProduct;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,10 +25,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\FormEvents;
-use Eccube\Form\DataTransformer;
 
 /**
  * Class RecommendProductType.
@@ -33,25 +35,13 @@ use Eccube\Form\DataTransformer;
 class RecommendProductType extends AbstractType
 {
     /**
-     * @var EccubeConfig
-     */
-    private $eccubeConfig;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
      * RecommendProductType constructor.
      *
      * @param EccubeConfig $eccubeConfig
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EccubeConfig $eccubeConfig, EntityManagerInterface $entityManager)
+    public function __construct(private EccubeConfig $eccubeConfig, private readonly EntityManagerInterface $entityManager)
     {
-        $this->eccubeConfig = $eccubeConfig;
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -85,7 +75,7 @@ class RecommendProductType extends AbstractType
         $builder->add(
             $builder
                 ->create('Product', HiddenType::class)
-                ->addModelTransformer(new DataTransformer\EntityToIdTransformer($this->entityManager, '\Eccube\Entity\Product'))
+                ->addModelTransformer(new EntityToIdTransformer($this->entityManager, Product::class))
         );
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
@@ -109,7 +99,7 @@ class RecommendProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => 'Plugin\Recommend44\Entity\RecommendProduct',
+            'data_class' => RecommendProduct::class,
         ]);
     }
 

@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,10 +13,13 @@
 
 namespace Plugin\Recommend44\Repository;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\Persistence\ManagerRegistry;
 use Eccube\Entity\Master\ProductStatus;
+use Eccube\Entity\Product;
 use Eccube\Repository\AbstractRepository;
 use Plugin\Recommend44\Entity\RecommendProduct;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * RecommendProductRepository.
@@ -41,7 +44,7 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @return mixed
      */
-    public function getRecommendList()
+    public function getRecommendList(): mixed
     {
         $qb = $this->createQueryBuilder('rp')
             ->innerJoin('rp.Product', 'p');
@@ -56,10 +59,10 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @return mixed
      *
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    public function getMaxRank()
+    public function getMaxRank(): mixed
     {
         $qb = $this->createQueryBuilder('rp')
             ->select('MAX(rp.sort_no) AS max_rank');
@@ -72,10 +75,10 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @return array
      */
-    public function getRecommendProduct()
+    public function getRecommendProduct(): array
     {
         $query = $this->createQueryBuilder('rp')
-            ->innerJoin('Eccube\Entity\Product', 'p', 'WITH', 'p.id = rp.Product')
+            ->innerJoin(Product::class, 'p', 'WITH', 'p.id = rp.Product')
             ->where('p.Status = :Disp')
             ->andWhere('rp.visible = true')
             ->orderBy('rp.sort_no', 'DESC')
@@ -90,10 +93,10 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @return mixed
      *
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
-    public function countRecommend()
+    public function countRecommend(): mixed
     {
         $qb = $this->createQueryBuilder('rp');
         $qb->select('COUNT(rp)');
@@ -110,7 +113,7 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @throws \Exception
      */
-    public function moveRecommendRank(array $arrRank)
+    public function moveRecommendRank(array $arrRank): array
     {
         $this->getEntityManager()->beginTransaction();
         $arrRankMoved = [];
@@ -144,7 +147,7 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @throws \Exception
      */
-    public function saveRecommend(RecommendProduct $RecommendProduct)
+    public function saveRecommend(RecommendProduct $RecommendProduct): bool
     {
         $this->getEntityManager()->beginTransaction();
         try {
@@ -164,7 +167,7 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @return array
      */
-    public function getRecommendProductIdAll()
+    public function getRecommendProductIdAll(): array
     {
         $query = $this->createQueryBuilder('rp')
             ->select('IDENTITY(rp.Product) as id')
@@ -172,7 +175,7 @@ class RecommendProductRepository extends AbstractRepository
             ->getQuery();
         $arrReturn = $query->getScalarResult();
 
-        return array_map('current', $arrReturn);
+        return array_map(current(...), $arrReturn);
     }
 
     /**
@@ -184,7 +187,7 @@ class RecommendProductRepository extends AbstractRepository
      *
      * @throws \Exception
      */
-    public function deleteRecommend(RecommendProduct $RecommendProduct)
+    public function deleteRecommend(RecommendProduct $RecommendProduct): bool
     {
         // おすすめ商品情報を書き換える
         $RecommendProduct->setVisible(false);

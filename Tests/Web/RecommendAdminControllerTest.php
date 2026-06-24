@@ -5,7 +5,7 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,12 +15,10 @@ namespace Plugin\Recommend44\Tests\Web;
 
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Product;
-use Eccube\Repository\Master\ProductStatusRepository;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
 use Plugin\Recommend44\Entity\RecommendProduct;
 use Plugin\Recommend44\Repository\RecommendProductRepository;
-
 
 /**
  * Class RecommendAdminControllerTest.
@@ -29,15 +27,10 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
 {
     protected $Recommend1;
     protected $Recommend2;
-    /**
-     * @var ProductRepository
-     */
-    protected $productRepo;
 
-    /**
-     * @var RecommendProductRepository
-     */
-    private $recommendProductRepository;
+    protected ?ProductRepository $productRepo = null;
+
+    private ?RecommendProductRepository $recommendProductRepository = null;
 
     /**
      * please ensure have 1 or more order in database before testing.
@@ -343,7 +336,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     {
         $fake = $this->getFaker();
         $productId = 1;
-        //recommend of product 2
+        // recommend of product 2
         $recommendId = $this->Recommend2->getId();
         $editMessage = $fake->word;
 
@@ -386,7 +379,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
      *
      * @return mixed
      */
-    private function getRecommend($productId)
+    private function getRecommend($productId): mixed
     {
         $Product = $this->productRepo->find($productId);
 
@@ -397,14 +390,14 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
      * @param $productId
      * @param $rank
      *
-     * @return \Plugin\Recommend44\Entity\RecommendProduct
+     * @return RecommendProduct
      */
-    private function initRecommendData($productId, $rank)
+    private function initRecommendData($productId, $rank): RecommendProduct
     {
         $dateTime = new \DateTime();
         $fake = $this->getFaker();
 
-        $Recommend = new \Plugin\Recommend44\Entity\RecommendProduct();
+        $Recommend = new RecommendProduct();
         $Recommend->setComment($fake->word);
         $Recommend->setProduct($this->productRepo->find($productId));
         $Recommend->setSortno($rank);
