@@ -99,12 +99,13 @@ TAG=8.3-apache-4.4 docker compose up -d --wait
 
 ### PHPUnit の実行
 
-有効化直後はコンパイル済みキャッシュにプラグインのルーティングが反映されていない場合があるため、
-テスト実行前に `cache:clear` を行います。
+PHPUnit は `phpunit.xml.dist` により `APP_ENV=test` で実行されます。有効化直後は test 環境の
+コンパイル済みキャッシュにプラグインのルーティングが反映されていない場合があるため、
+実行前に test 環境のキャッシュをクリアします。
 
 ```bash
 docker compose exec ec-cube bash -lc \
-  "bin/console cache:clear --no-warmup && ./vendor/bin/phpunit -c app/Plugin/Recommend44/phpunit.xml.dist app/Plugin/Recommend44/Tests"
+  "APP_ENV=test bin/console cache:clear --no-warmup && ./vendor/bin/phpunit -c app/Plugin/Recommend44/phpunit.xml.dist app/Plugin/Recommend44/Tests"
 ```
 
 管理画面は http://localhost:8080/admin 、送信メールは http://localhost:1080 (mailcatcher) で確認できます。

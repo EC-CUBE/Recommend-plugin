@@ -32,8 +32,9 @@ services:
       - "node_modules:/var/www/html/node_modules"
     environment:
       # EC-CUBE environments
-      # PHPUnit を実行するため APP_ENV=test で起動します
-      APP_ENV: "test"
+      # ブラウザでの動作確認用に dev で起動します（実セッションが必要なため）。
+      # PHPUnit は phpunit.xml.dist が APP_ENV=test を強制するので両立します。
+      APP_ENV: "dev"
       APP_DEBUG: 1
       DATABASE_URL: "sqlite:///var/eccube.db"
       DATABASE_SERVER_VERSION: 3
