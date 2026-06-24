@@ -13,7 +13,6 @@
 
 namespace Plugin\Recommend44\Tests\Web;
 
-use Eccube\Common\Constant;
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Product;
 use Eccube\Repository\Master\ProductStatusRepository;
@@ -172,7 +171,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
             ]
         );
 
-        $this->assertStringContainsString('値が長すぎます。4000文字以内でなければなりません。', $crawler->filter('.card-body')->html());
+        $this->assertStringContainsString('長すぎます。この値は4000文字以下で入力してください。', $crawler->filter('.card-body')->html());
     }
 
     /**
@@ -376,7 +375,8 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         $this->assertTrue($this->client->getResponse()->isRedirect($this->generateUrl('plugin_recommend_list')));
         $ProductNew = $this->recommendProductRepository->find($recommendId);
 
-        $this->expected = Constant::DISABLED;
+        // visible は boolean 型のため、削除後は false を返す
+        $this->expected = false;
         $this->actual = $ProductNew->getVisible();
         $this->verify();
     }
