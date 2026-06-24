@@ -11,13 +11,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Tests\Repository;
+namespace Plugin\Recommend44\Tests\Repository;
 
 use Eccube\Entity\Product;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
-use Plugin\Recommend42\Entity\RecommendProduct;
-use Plugin\Recommend42\Repository\RecommendProductRepository;
+use Plugin\Recommend44\Entity\RecommendProduct;
+use Plugin\Recommend44\Repository\RecommendProductRepository;
 
 
 /**
@@ -89,7 +89,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
         /** @var RecommendProduct $VisibleRecommendProducts[] */
         $VisibleRecommendProducts = $this->recommendProductRepository->findBy(['sort_no' => 2]);
         $VisibleRecommendProducts[0]->setVisible(false);
-        $this->entityManager->flush($VisibleRecommendProducts[0]);
+        $this->entityManager->flush();
 
         // visible=false が1件
         $RecommendProducts = $this->recommendProductRepository->getRecommendProduct();
@@ -174,7 +174,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
         $dateTime = new \DateTime();
         $fake = $this->getFaker();
 
-        $Recommend = new \Plugin\Recommend42\Entity\RecommendProduct();
+        $Recommend = new \Plugin\Recommend44\Entity\RecommendProduct();
         $Recommend->setComment($fake->word);
         $Recommend->setProduct($this->productRepository->find($productId));
         $Recommend->setSortno($rank);

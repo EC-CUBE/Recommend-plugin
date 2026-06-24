@@ -11,20 +11,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Controller;
+namespace Plugin\Recommend44\Controller;
 
 use Eccube\Controller\AbstractController;
 use Eccube\Form\Type\Admin\SearchProductType;
-use Plugin\Recommend42\Entity\RecommendProduct;
-use Plugin\Recommend42\Form\Type\RecommendProductType;
-use Plugin\Recommend42\Repository\RecommendProductRepository;
-use Plugin\Recommend42\Service\RecommendService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Plugin\Recommend44\Entity\RecommendProduct;
+use Plugin\Recommend44\Form\Type\RecommendProductType;
+use Plugin\Recommend44\Repository\RecommendProductRepository;
+use Plugin\Recommend44\Service\RecommendService;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class RecommendController.
@@ -55,14 +55,10 @@ class RecommendController extends AbstractController
 
     /**
      * おすすめ商品一覧.
-     *
-     * @param Request     $request
-     *
-     * @return array
-     * @Route("/%eccube_admin_route%/plugin/recommend", name="plugin_recommend_list")
-     * @Template("@Recommend42/admin/index.twig")
      */
-    public function index(Request $request)
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend', name: 'plugin_recommend_list')]
+    #[Template('@Recommend44/admin/index.twig')]
+    public function index(Request $request): array
     {
         $pagination = $this->recommendProductRepository->getRecommendList();
 
@@ -81,10 +77,10 @@ class RecommendController extends AbstractController
      * @throws \Exception
      *
      * @return array|RedirectResponse
-     * @Route("/%eccube_admin_route%/plugin/recommend/new", name="plugin_recommend_new")
-     * @Route("/%eccube_admin_route%/plugin/recommend/{id}/edit", name="plugin_recommend_edit", requirements={"id" = "\d+"})
-     * @Template("@Recommend42/admin/regist.twig")
      */
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/new', name: 'plugin_recommend_new')]
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/edit', name: 'plugin_recommend_edit', requirements: ['id' => '\d+'])]
+    #[Template('@Recommend44/admin/regist.twig')]
     public function edit(Request $request, $id = null)
     {
         /* @var RecommendProduct $Recommend */
@@ -158,8 +154,8 @@ class RecommendController extends AbstractController
      * @throws \Exception
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/%eccube_admin_route%/plugin/recommend/{id}/delete", name="plugin_recommend_delete", requirements={"id" = "\d+"}, methods={"DELETE"})
      */
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/delete', name: 'plugin_recommend_delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
     public function delete(Request $request, RecommendProduct $RecommendProduct)
     {
         // Valid token
@@ -184,9 +180,8 @@ class RecommendController extends AbstractController
      * @throws \Exception
      *
      * @return Response
-     *
-     * @Route("/%eccube_admin_route%/plugin/recommend/sort_no/move", name="plugin_recommend_rank_move")
      */
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/sort_no/move', name: 'plugin_recommend_rank_move')]
     public function moveRank(Request $request)
     {
         if ($request->isXmlHttpRequest()) {

@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Form\Type;
+namespace Plugin\Recommend44\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
@@ -60,7 +60,7 @@ class RecommendProductType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('id', TextType::class, [
@@ -74,9 +74,7 @@ class RecommendProductType extends AbstractType
                 'trim' => true,
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length([
-                        'max' => $this->eccubeConfig['plugin_recommend.text_area_len'],
-                    ]),
+                    new Assert\Length(max: $this->eccubeConfig['plugin_recommend.text_area_len']),
                 ],
                 'attr' => [
                     'maxlength' => $this->eccubeConfig['plugin_recommend.text_area_len'],
@@ -108,17 +106,14 @@ class RecommendProductType extends AbstractType
      *
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => 'Plugin\Recommend42\Entity\RecommendProduct',
+            'data_class' => 'Plugin\Recommend44\Entity\RecommendProduct',
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'admin_recommend';
     }

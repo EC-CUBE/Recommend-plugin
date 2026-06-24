@@ -11,12 +11,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Repository;
+namespace Plugin\Recommend44\Repository;
 
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Repository\AbstractRepository;
-use Plugin\Recommend42\Entity\RecommendProduct;
-use Doctrine\Persistence\ManagerRegistry; 
+use Plugin\Recommend44\Entity\RecommendProduct;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * RecommendProductRepository.
@@ -149,7 +149,7 @@ class RecommendProductRepository extends AbstractRepository
         $this->getEntityManager()->beginTransaction();
         try {
             $this->getEntityManager()->persist($RecommendProduct);
-            $this->getEntityManager()->flush($RecommendProduct);
+            $this->getEntityManager()->flush();
             $this->getEntityManager()->commit();
         } catch (\Exception $e) {
             $this->getEntityManager()->rollback();

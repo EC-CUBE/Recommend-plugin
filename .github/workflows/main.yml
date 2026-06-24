@@ -1,4 +1,4 @@
-name: CI for Recommend42
+name: CI for Recommend44
 on:
   push:
     branches:
@@ -17,19 +17,15 @@ on:
 jobs:
   run-on-linux:
     name: Run on Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        eccube_version: [ '4.2', '4.3' ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3']
-        db: [ 'mysql', 'mysql8', 'pgsql' ]
-        plugin_code: [ 'Recommend42' ]
+        eccube_version: [ '4.4' ]
+        php: [ '8.2', '8.3', '8.4' ]
+        db: [ 'mysql8', 'pgsql' ]
+        plugin_code: [ 'Recommend44' ]
         include:
-          - db: mysql
-            database_url: mysql://root:password@127.0.0.1:3306/eccube_db
-            database_server_version: 5.7
-            database_charset: utf8mb4
           - db: mysql8
             database_url: mysql://root:password@127.0.0.1:3308/eccube_db
             database_server_version: 8
@@ -38,24 +34,7 @@ jobs:
             database_url: postgres://postgres:password@127.0.0.1:5432/eccube_db
             database_server_version: 14
             database_charset: utf8
-        exclude:
-          -   eccube_version: 4.2
-              php: 8.2
-          -   eccube_version: 4.2
-              php: 8.3
-          -   eccube_version: 4.3
-              php: 7.4
-          -   eccube_version: 4.3
-              php: 8.0
     services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: ${{ matrix.dbname }}
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mysql8:
         image: mysql:8
         env:
@@ -81,7 +60,7 @@ jobs:
           - 1025:1025
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: nanasess/setup-php@master
@@ -94,7 +73,7 @@ jobs:
         run: |
           tar cvzf ${GITHUB_WORKSPACE}/${PLUGIN_CODE}.tar.gz ./*
       - name: Checkout EC-CUBE
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: 'EC-CUBE/ec-cube'
           ref: ${{ matrix.eccube_version }}
@@ -103,8 +82,8 @@ jobs:
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+          echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}

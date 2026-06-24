@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42;
+namespace Plugin\Recommend44;
 
 use Eccube\Common\EccubeNav;
 
@@ -22,7 +22,7 @@ class Nav implements EccubeNav
      *
      * @return array
      */
-    public static function getNav()
+    public static function getNav(): array
     {
         return [
             'content' => [

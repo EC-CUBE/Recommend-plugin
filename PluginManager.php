@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42;
+namespace Plugin\Recommend44;
 
 use Eccube\Common\EccubeConfig;
 use Eccube\Application;
@@ -63,7 +63,7 @@ class PluginManager extends AbstractPluginManager
      *
      * @throws \Exception
      */
-    public function uninstall(array $meta, ContainerInterface $container)
+    public function uninstall(array $meta, ContainerInterface $container): void
     {
         // ブロックの削除
         $this->removeDataBlock($container);
@@ -76,7 +76,7 @@ class PluginManager extends AbstractPluginManager
      *
      * @throws \Exception
      */
-    public function enable(array $meta = null, ContainerInterface $container)
+    public function enable(array $meta, ContainerInterface $container): void
     {
         $entityManager = $container->get('doctrine')->getManager();
         $this->copyBlock($container);
@@ -91,7 +91,7 @@ class PluginManager extends AbstractPluginManager
      * @param array|null $meta
      * @param ContainerInterface $container
      */
-    public function disable(array $meta = null, ContainerInterface $container)
+    public function disable(array $meta, ContainerInterface $container): void
     {
         $this->removeDataBlock($container);
     }
@@ -100,7 +100,7 @@ class PluginManager extends AbstractPluginManager
      * @param array|null $meta
      * @param ContainerInterface $container
      */
-    public function update(array $meta = null, ContainerInterface $container)
+    public function update(array $meta, ContainerInterface $container): void
     {
         $this->copyBlock($container);
     }
@@ -112,7 +112,7 @@ class PluginManager extends AbstractPluginManager
      *
      * @throws \Exception
      */
-    private function createDataBlock(ContainerInterface $container)
+    private function createDataBlock(ContainerInterface $container): void
     {
         $em = $container->get('doctrine')->getManager();
         $DeviceType = $em->getRepository(DeviceType::class)->find(DeviceType::DEVICE_TYPE_PC);
@@ -127,7 +127,7 @@ class PluginManager extends AbstractPluginManager
                 ->setUseController(false)
                 ->setDeletable(false);
             $em->persist($Block);
-            $em->flush($Block);
+            $em->flush();
 
             // check exists block position
             $blockPos = $em->getRepository(BlockPosition::class)->findOneBy(['Block' => $Block]);
@@ -159,7 +159,7 @@ class PluginManager extends AbstractPluginManager
                 ->setBlockId($Block->getId());
 
             $em->persist($BlockPosition);
-            $em->flush($BlockPosition);
+            $em->flush();
         } catch (\Exception $e) {
             throw $e;
         }
@@ -172,7 +172,7 @@ class PluginManager extends AbstractPluginManager
      *
      * @throws \Exception
      */
-    private function removeDataBlock(ContainerInterface $container)
+    private function removeDataBlock(ContainerInterface $container): void
     {
         $em = $container->get('doctrine')->getManager();
         // Blockの取得(file_nameはアプリケーションの仕組み上必ずユニーク)
@@ -205,7 +205,7 @@ class PluginManager extends AbstractPluginManager
      *
      * @param ContainerInterface $container
      */
-    private function copyBlock(ContainerInterface $container)
+    private function copyBlock(ContainerInterface $container): void
     {
         $templateDir = $container->get(EccubeConfig::class)->get('eccube_theme_front_dir');
         // ファイルコピー
@@ -222,7 +222,7 @@ class PluginManager extends AbstractPluginManager
      *
      * @param ContainerInterface $container
      */
-    private function removeBlock(ContainerInterface $container)
+    private function removeBlock(ContainerInterface $container): void
     {
         $templateDir = $container->get(EccubeConfig::class)->get('eccube_theme_front_dir');
         $file = new Filesystem();

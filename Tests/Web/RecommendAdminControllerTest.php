@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Tests\Web;
+namespace Plugin\Recommend44\Tests\Web;
 
 use Eccube\Common\Constant;
 use Eccube\Entity\Master\ProductStatus;
@@ -19,8 +19,8 @@ use Eccube\Entity\Product;
 use Eccube\Repository\Master\ProductStatusRepository;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
-use Plugin\Recommend42\Entity\RecommendProduct;
-use Plugin\Recommend42\Repository\RecommendProductRepository;
+use Plugin\Recommend44\Entity\RecommendProduct;
+use Plugin\Recommend44\Repository\RecommendProductRepository;
 
 
 /**
@@ -229,7 +229,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         $Product = $this->productRepo->findOneBy(['name' => '彩のジェラートCUBE']);
         $Product->setStatus($this->entityManager->getRepository(ProductStatus::class)->find(ProductStatus::DISPLAY_HIDE));
         $this->entityManager->persist($Product);
-        $this->entityManager->flush($Product);
+        $this->entityManager->flush();
 
         $crawler = $this->client->request(
             'POST',
@@ -397,14 +397,14 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
      * @param $productId
      * @param $rank
      *
-     * @return \Plugin\Recommend42\Entity\RecommendProduct
+     * @return \Plugin\Recommend44\Entity\RecommendProduct
      */
     private function initRecommendData($productId, $rank)
     {
         $dateTime = new \DateTime();
         $fake = $this->getFaker();
 
-        $Recommend = new \Plugin\Recommend42\Entity\RecommendProduct();
+        $Recommend = new \Plugin\Recommend44\Entity\RecommendProduct();
         $Recommend->setComment($fake->word);
         $Recommend->setProduct($this->productRepo->find($productId));
         $Recommend->setSortno($rank);

@@ -11,16 +11,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Controller;
+namespace Plugin\Recommend44\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Eccube\Controller\AbstractController;
 use Eccube\Repository\CategoryRepository;
 use Eccube\Repository\ProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 
 /**
@@ -57,10 +57,10 @@ class RecommendSearchModelController extends AbstractController
      * @param int         $page_no
      *
      * @return array
-     * @Route("/%eccube_admin_route%/plugin/recommend/search/product", name="plugin_recommend_search_product")
-     * @Route("/%eccube_admin_route%/plugin/recommend/search/product/page/{page_no}", requirements={"page_no" = "\d+"}, name="plugin_recommend_search_product_page")
-     * @Template("@Recommend42/admin/search_product.twig")
      */
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/search/product', name: 'plugin_recommend_search_product')]
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/search/product/page/{page_no}', requirements: ['page_no' => '\d+'], name: 'plugin_recommend_search_product_page')]
+    #[Template('@Recommend44/admin/search_product.twig')]
     public function searchProduct(Request $request, PaginatorInterface $paginator, $page_no = null)
     {
         if (!$request->isXmlHttpRequest()) {
