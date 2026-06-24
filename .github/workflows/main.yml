@@ -91,7 +91,9 @@ jobs:
             ${{ runner.os }}-composer-
       - name: Install to composer
         working-directory: 'ec-cube'
-        run: composer install --no-interaction -o --apcu-autoloader
+        # Symfony 7.4 の symfony/cache が ext-redis <6.1 と衝突するが、ランナーには
+        # 古い php-redis(5.3.7) が入っている。本プラグイン/本体テストは redis 未使用のため無視する。
+        run: composer install --no-interaction -o --apcu-autoloader --ignore-platform-req=ext-redis
 
       - name: Setup EC-CUBE
         env:
