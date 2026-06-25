@@ -30,7 +30,7 @@ class PluginManager extends AbstractPluginManager
     /**
      * @var string コピー元ブロックファイル
      */
-    private string $originBlock;
+    private readonly string $originBlock;
 
     /**
      * @var string ブロック名
