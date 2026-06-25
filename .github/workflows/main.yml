@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         eccube_version: [ '4.4' ]
-        php: [ '8.2', '8.3', '8.4' ]
+        php: [ '8.2', '8.3', '8.4', '8.5' ]
         db: [ 'mysql8', 'pgsql' ]
         plugin_code: [ 'Recommend44' ]
         include:
@@ -179,7 +179,7 @@ jobs:
       - name: Setup PHP
         uses: nanasess/setup-php@master
         with:
-          php-version: '8.3'
+          php-version: '8.5'
 
       - name: Archive Plugin
         run: |
@@ -210,6 +210,8 @@ jobs:
         run: |
           bin/console doctrine:database:create
           bin/console doctrine:schema:create
+          # プラグイン有効化時に DeviceType 等のマスタデータを参照するため fixtures を投入する
+          bin/console eccube:fixtures:load
       - name: Setup Plugin
         working-directory: 'ec-cube'
         run: |
