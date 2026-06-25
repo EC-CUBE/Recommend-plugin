@@ -44,7 +44,7 @@ class RecommendSearchModelController extends AbstractController
      * @param Request     $request
      * @param int         $page_no
      *
-     * @return array
+     * @return array<string, mixed>
      */
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/search/product', name: 'plugin_recommend_search_product')]
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/search/product/page/{page_no}', requirements: ['page_no' => '\d+'], name: 'plugin_recommend_search_product_page')]
@@ -89,7 +89,7 @@ class RecommendSearchModelController extends AbstractController
 
         $qb = $this->productRepository->getQueryBuilderBySearchDataForAdmin($searchData);
 
-        /** @var SlidingPagination $pagination */
+        /** @var SlidingPagination<int, mixed> $pagination */
         $pagination = $this->paginator->paginate(
             $qb,
             $page_no,
@@ -97,7 +97,7 @@ class RecommendSearchModelController extends AbstractController
             ['wrap-queries' => true]
         );
 
-        /** @var ArrayCollection */
+        /** @var ArrayCollection<int, mixed> $arrProduct */
         $arrProduct = $pagination->getItems();
 
         log_debug('Search product finish.');

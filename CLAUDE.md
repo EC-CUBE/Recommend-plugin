@@ -63,7 +63,7 @@ docker compose exec ec-cube bash -lc \
   "cd app/Plugin/Recommend44 && /var/www/html/vendor/bin/phpstan analyse"
 ```
 
-phpstan は level 6。移行前から存在する型注釈不足や phpstan-doctrine の偽陽性は `phpstan-baseline.neon` に記録して grandfather しており（`includes` で取り込み）、`analyse` は green。**新規に追加するコードは level 6 で検査される**。baseline を再生成する場合は `--generate-baseline=phpstan-baseline.neon`。
+phpstan は level 6 で **baseline なし・エラーゼロ**。Repository は `@extends AbstractRepository<RecommendProduct>` を付与して `find()` 等の戻り値型を確定させている。新規コードもこの水準を維持すること。
 
 ## アーキテクチャ
 

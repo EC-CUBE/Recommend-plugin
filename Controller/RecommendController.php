@@ -43,6 +43,8 @@ class RecommendController extends AbstractController
 
     /**
      * おすすめ商品一覧.
+     *
+     * @return array<string, mixed>
      */
     #[Route(path: '/%eccube_admin_route%/plugin/recommend', name: 'plugin_recommend_list')]
     #[Template('@Recommend44/admin/index.twig')]
@@ -62,7 +64,7 @@ class RecommendController extends AbstractController
      * @param Request     $request
      * @param int         $id
      *
-     * @return array|RedirectResponse
+     * @return array<string, mixed>|RedirectResponse
      *
      * @throws \Exception
      */
@@ -136,7 +138,6 @@ class RecommendController extends AbstractController
     /**
      * おすすめ商品の削除.
      *
-     * @param Request     $request
      * @param RecommendProduct $RecommendProduct
      *
      * @return RedirectResponse
@@ -184,9 +185,9 @@ class RecommendController extends AbstractController
     /**
      * 編集画面用のrender.
      *
-     * @param array       $parameters
+     * @param array<string, mixed> $parameters
      *
-     * @return array
+     * @return array<string, mixed>
      */
     protected function registerView(array $parameters = []): array
     {

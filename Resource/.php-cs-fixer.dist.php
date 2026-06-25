@@ -37,7 +37,9 @@ $rules = [
     // PHPDocの型をネイティブ型へ
     'phpdoc_to_param_type' => true,
     'phpdoc_to_return_type' => true,
-    'phpdoc_to_property_type' => true,
+    // プロパティのネイティブ型化は無効。EC-CUBE のテスト基盤が tearDown で全プロパティに
+    // null を代入するため、テストプロパティを非null native 型にすると TypeError になる。
+    'phpdoc_to_property_type' => false,
 ];
 
 $finder = \PhpCsFixer\Finder::create()

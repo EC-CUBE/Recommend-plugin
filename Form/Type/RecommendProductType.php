@@ -48,7 +48,7 @@ class RecommendProductType extends AbstractType
      * Build config type form.
      *
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array<string, mixed> $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

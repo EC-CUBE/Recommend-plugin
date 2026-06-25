@@ -13,7 +13,6 @@
 
 namespace Plugin\Recommend44;
 
-use Eccube\Application;
 use Eccube\Common\EccubeConfig;
 use Eccube\Entity\Block;
 use Eccube\Entity\BlockPosition;
@@ -53,9 +52,8 @@ class PluginManager extends AbstractPluginManager
     }
 
     /**
-     * @param null $meta
+     * @param array<string, mixed> $meta
      * @param ContainerInterface $container
-     * @param Application|null $app
      *
      * @throws \Exception
      */
@@ -67,7 +65,7 @@ class PluginManager extends AbstractPluginManager
     }
 
     /**
-     * @param array|null $meta
+     * @param array<string, mixed> $meta
      * @param ContainerInterface $container
      *
      * @throws \Exception
@@ -84,7 +82,7 @@ class PluginManager extends AbstractPluginManager
     }
 
     /**
-     * @param array|null $meta
+     * @param array<string, mixed> $meta
      * @param ContainerInterface $container
      */
     public function disable(array $meta, ContainerInterface $container): void
@@ -93,7 +91,7 @@ class PluginManager extends AbstractPluginManager
     }
 
     /**
-     * @param array|null $meta
+     * @param array<string, mixed> $meta
      * @param ContainerInterface $container
      */
     public function update(array $meta, ContainerInterface $container): void
@@ -172,7 +170,7 @@ class PluginManager extends AbstractPluginManager
     {
         $em = $container->get('doctrine')->getManager();
         // Blockの取得(file_nameはアプリケーションの仕組み上必ずユニーク)
-        /** @var Block $Block */
+        /** @var Block|null $Block */
         $Block = $em->getRepository(Block::class)->findOneBy(['file_name' => $this->blockFileName]);
 
         if (!$Block) {

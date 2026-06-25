@@ -41,7 +41,7 @@ class RecommendProduct extends AbstractEntity
     private ?int $sort_no = null;
 
     #[ORM\Column(name: 'visible', type: Types::BOOLEAN, options: ['default' => true])]
-    private ?bool $visible = null;
+    private bool $visible = true;
 
     #[ORM\Column(name: 'create_date', type: Types::DATETIMETZ_MUTABLE)]
     private ?\DateTime $create_date = null;
@@ -118,7 +118,7 @@ class RecommendProduct extends AbstractEntity
      *
      * @return $this
      */
-    public function setVisible(?bool $visible): self
+    public function setVisible(bool $visible): self
     {
         $this->visible = $visible;
 
@@ -128,7 +128,7 @@ class RecommendProduct extends AbstractEntity
     /**
      * Get del_flg.
      */
-    public function getVisible(): ?bool
+    public function getVisible(): bool
     {
         return $this->visible;
     }

@@ -25,12 +25,16 @@ use Plugin\Recommend44\Repository\RecommendProductRepository;
  */
 class RecommendAdminControllerTest extends AbstractAdminWebTestCase
 {
+    /** @var RecommendProduct */
     protected $Recommend1;
+    /** @var RecommendProduct */
     protected $Recommend2;
 
-    protected ?ProductRepository $productRepo = null;
+    /** @var ProductRepository */
+    protected $productRepo;
 
-    private ?RecommendProductRepository $recommendProductRepository = null;
+    /** @var RecommendProductRepository */
+    private $recommendProductRepository;
 
     /**
      * please ensure have 1 or more order in database before testing.
@@ -53,7 +57,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
      * testRecommendList
      * none recommend.
      */
-    public function testRecommendListEmpty()
+    public function testRecommendListEmpty(): void
     {
         $this->deleteAllRows(['plg_recommend_product']);
         $crawler = $this->client->request('GET', $this->generateUrl('plugin_recommend_list'));
@@ -64,7 +68,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
      * testRecommendList
      * none recommend.
      */
-    public function testRecommendList()
+    public function testRecommendList(): void
     {
         $this->deleteAllRows(['plg_recommend_product']);
         for ($i = 1; $i < 12; ++$i) {
@@ -79,7 +83,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendCreate.
      */
-    public function testRecommendCreate()
+    public function testRecommendCreate(): void
     {
         $crawler = $this->client->request('GET', $this->generateUrl('plugin_recommend_new'));
         $this->assertStringContainsString('おすすめ商品管理', $crawler->html());
@@ -88,7 +92,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendNew.
      */
-    public function testRecommendNewEmpty()
+    public function testRecommendNewEmpty(): void
     {
         $crawler = $this->client->request(
             'POST',
@@ -108,7 +112,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendNew.
      */
-    public function testRecommendNewProduct()
+    public function testRecommendNewProduct(): void
     {
         $productId = 1;
         $crawler = $this->client->request(
@@ -128,7 +132,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendNew.
      */
-    public function testRecommendNewComment()
+    public function testRecommendNewComment(): void
     {
         $fake = $this->getFaker();
         $crawler = $this->client->request(
@@ -148,7 +152,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendNewComment4002.
      */
-    public function testRecommendNewCommentOver()
+    public function testRecommendNewCommentOver(): void
     {
         $fake = $this->getFaker();
         $productId = 1;
@@ -170,7 +174,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendNew.
      */
-    public function testRecommendNew()
+    public function testRecommendNew(): void
     {
         $this->deleteAllRows(['plg_recommend_product']);
         $fake = $this->getFaker();
@@ -198,7 +202,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * RecommendSearchModelController.
      */
-    public function testAjaxSearchPublicProduct()
+    public function testAjaxSearchPublicProduct(): void
     {
         $crawler = $this->client->request(
             'POST',
@@ -215,7 +219,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * RecommendSearchModelController.
      */
-    public function testAjaxSearchUnpublicProduct()
+    public function testAjaxSearchUnpublicProduct(): void
     {
         /** @var Product $Product */
         $Product = $this->productRepo->findOneBy(['name' => '彩のジェラートCUBE']);
@@ -238,7 +242,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * RecommendSearchModelController.
      */
-    public function testAjaxSearchProductValueCode()
+    public function testAjaxSearchProductValueCode(): void
     {
         $crawler = $this->client->request(
             'POST',
@@ -255,7 +259,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * RecommendSearchModelController.
      */
-    public function testAjaxSearchProductValueId()
+    public function testAjaxSearchProductValueId(): void
     {
         $crawler = $this->client->request(
             'POST',
@@ -272,7 +276,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * RecommendSearchModelController.
      */
-    public function testAjaxSearchProductCategory()
+    public function testAjaxSearchProductCategory(): void
     {
         $crawler = $this->client->request(
             'POST',
@@ -289,7 +293,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendEditShow.
      */
-    public function testRecommendEditShow()
+    public function testRecommendEditShow(): void
     {
         $recommendId = $this->Recommend2->getId();
 
@@ -301,7 +305,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendEdit.
      */
-    public function testRecommendEdit()
+    public function testRecommendEdit(): void
     {
         $fake = $this->getFaker();
         $productId = 2;
@@ -332,7 +336,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
      * testRecommendEditExit
      * change from product 2 to product 1.
      */
-    public function testRecommendEditExist()
+    public function testRecommendEditExist(): void
     {
         $fake = $this->getFaker();
         $productId = 1;
@@ -358,7 +362,7 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     /**
      * testRecommendDelete.
      */
-    public function testRecommendDelete()
+    public function testRecommendDelete(): void
     {
         $recommendId = $this->Recommend1->getId();
         $this->client->request(
@@ -374,25 +378,14 @@ class RecommendAdminControllerTest extends AbstractAdminWebTestCase
         $this->verify();
     }
 
-    /**
-     * @param $productId
-     *
-     * @return mixed
-     */
-    private function getRecommend($productId): mixed
+    private function getRecommend(int $productId): mixed
     {
         $Product = $this->productRepo->find($productId);
 
         return $this->recommendProductRepository->findOneBy(['Product' => $Product]);
     }
 
-    /**
-     * @param $productId
-     * @param $rank
-     *
-     * @return RecommendProduct
-     */
-    private function initRecommendData($productId, $rank): RecommendProduct
+    private function initRecommendData(int $productId, int $rank): RecommendProduct
     {
         $dateTime = new \DateTime();
         $fake = $this->getFaker();

@@ -35,13 +35,13 @@ class RecommendService
     /**
      * おすすめ商品情報を新規登録する
      *
-     * @param $data
+     * @param RecommendProduct $data
      *
      * @return bool
      *
      * @throws \Exception
      */
-    public function createRecommend($data): bool
+    public function createRecommend(RecommendProduct $data): bool
     {
         // おすすめ商品詳細情報を生成する
         $Recommend = $this->newRecommend($data);
@@ -52,13 +52,13 @@ class RecommendService
     /**
      * おすすめ商品情報を更新する
      *
-     * @param $data
+     * @param RecommendProduct $data
      *
      * @return bool
      *
      * @throws \Exception
      */
-    public function updateRecommend($data): bool
+    public function updateRecommend(RecommendProduct $data): bool
     {
         // おすすめ商品情報を取得する
         $Recommend = $this->recommendProductRepository->find($data['id']);
@@ -77,14 +77,14 @@ class RecommendService
     /**
      * おすすめ商品情報を生成する
      *
-     * @param $data
+     * @param RecommendProduct $data
      *
      * @return RecommendProduct
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    protected function newRecommend($data): RecommendProduct
+    protected function newRecommend(RecommendProduct $data): RecommendProduct
     {
         $rank = $this->recommendProductRepository->getMaxRank();
 

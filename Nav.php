@@ -20,7 +20,7 @@ class Nav implements EccubeNav
     /**
      * {@inheritdoc}
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public static function getNav(): array
     {
