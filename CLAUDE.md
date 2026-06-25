@@ -97,6 +97,10 @@ Plugin\:
 
 ブラウザログインには実セッション（`session.storage.factory.native`）が必要。`APP_ENV=test` ではモックストレージ（`mock_file`）になりログインできない。また EC-CUBE 4.4（Symfony 7）は既定 `cookie_samesite: none` のため、HTTP 環境では `dockerbuild/dev-framework.yaml`（`cookie_secure:false` / `cookie_samesite:lax`）を `app/config/eccube/packages/dev/framework.yaml` に重ねて回避している。
 
+### 有効化後は `cache:clear` を 2 回流す（ルート/Nav の確定）
+
+`eccube:plugin:enable` 直後の 1 回の `cache:clear` だけでは、プラグインのルーティング（おすすめ管理ページ `plugin_recommend_list`）と Nav メニューが確定せず、**初回ロードで `/admin/plugin/recommend` が 404** になることを確認した。enable とは別パスで `cache:clear` をもう一度実行すると確定する（`enable` が内部で行うキャッシュ再生成と競合するためと見られる）。そのため `docker-compose.dev.yml` の entrypoint は有効化後に `bin/console cache:clear` を **2 回** 実行する。手動でプラグインを再有効化した場合も同様に行うこと。
+
 ### プラグインの導入方法（tar + plugin:install）
 
 `docker-compose.dev.yml` はマウントしたプラグインを `./*` で tar 化し `eccube:plugin:install --path` で導入する。`eccube:composer:require` はパッケージ API（`extra.id`）を要求するため path プラグインでは使えない。また **`PharData` は先頭の `./` エントリで展開に失敗する**ため、プラグインディレクトリ内で `./*` を対象に tar 化する（`-C dir .` は不可）。
