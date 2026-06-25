@@ -158,3 +158,75 @@ jobs:
           PLUGIN_CODE: ${{ matrix.plugin_code }}
         working-directory: 'ec-cube'
         run: bin/console eccube:plugin:uninstall --code=${PLUGIN_CODE}
+
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-24.04
+    # 静的解析は DB 種別に依存しないため、SQLite 1 構成で一度だけ実行する。
+    # （php-cs-fixer / rector は DB 不要だが、phpstan は objectManagerLoader が
+    #   カーネルを起動し EccubeExtension が dtb_plugin を読むため本体+DBが必要）
+    env:
+      PLUGIN_CODE: Recommend44
+      APP_ENV: 'test'
+      APP_DEBUG: 0
+      DATABASE_URL: 'sqlite:///var/eccube.db'
+      DATABASE_SERVER_VERSION: 3
+      DATABASE_CHARSET: 'utf8'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: nanasess/setup-php@master
+        with:
+          php-version: '8.3'
+
+      - name: Archive Plugin
+        run: |
+          tar cvzf ${GITHUB_WORKSPACE}/${PLUGIN_CODE}.tar.gz ./*
+      - name: Checkout EC-CUBE
+        uses: actions/checkout@v4
+        with:
+          repository: 'EC-CUBE/ec-cube'
+          ref: '4.4'
+          path: 'ec-cube'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Install to composer
+        working-directory: 'ec-cube'
+        run: composer install --no-interaction -o --apcu-autoloader --ignore-platform-req=ext-redis
+
+      - name: Setup EC-CUBE
+        working-directory: 'ec-cube'
+        run: |
+          bin/console doctrine:database:create
+          bin/console doctrine:schema:create
+      - name: Setup Plugin
+        working-directory: 'ec-cube'
+        run: |
+          bin/console eccube:plugin:install --code=${PLUGIN_CODE} --path=${GITHUB_WORKSPACE}/${PLUGIN_CODE}.tar.gz
+          bin/console eccube:plugin:enable --code=${PLUGIN_CODE}
+          bin/console cache:clear --no-warmup
+
+      - name: Run php-cs-fixer
+        working-directory: 'ec-cube'
+        run: ./vendor/bin/php-cs-fixer fix --config=app/Plugin/${PLUGIN_CODE}/Resource/.php-cs-fixer.dist.php --dry-run --diff
+
+      - name: Run Rector
+        working-directory: 'ec-cube'
+        run: ./vendor/bin/rector process --config=app/Plugin/${PLUGIN_CODE}/Resource/rector.php --dry-run
+
+      - name: Run PHPStan
+        working-directory: 'ec-cube'
+        run: |
+          bin/console cache:clear --no-warmup
+          ./vendor/bin/phpstan analyse -c app/Plugin/${PLUGIN_CODE}/phpstan.neon.dist --no-progress
