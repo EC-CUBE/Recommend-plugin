@@ -102,9 +102,4 @@ class RecommendProductType extends AbstractType
             'data_class' => RecommendProduct::class,
         ]);
     }
-
-    public function getName(): string
-    {
-        return 'admin_recommend';
-    }
 }

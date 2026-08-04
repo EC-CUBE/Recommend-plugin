@@ -26,11 +26,7 @@
 {% endblock stylesheet %}
 
 {% block javascript %}
-    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.core.min.js', 'admin') }}"></script>
-    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.widget.min.js', 'admin') }}"></script>
-    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.mouse.min.js', 'admin') }}"></script>
-    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.sortable.min.js', 'admin') }}"></script>
-
+    {# jQuery UI (sortable) は本体の admin.bundle.js に同梱されているため個別読み込みは不要 #}
     <script type="text/javascript">
         $(function () {
             // 初期表示時のsort noを保持.

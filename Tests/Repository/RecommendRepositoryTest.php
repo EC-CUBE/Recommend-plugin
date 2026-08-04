@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of EC-CUBE
  *
@@ -22,7 +24,7 @@ use Plugin\Recommend44\Repository\RecommendProductRepository;
 /**
  * Class RecommendRepositoryTest.
  */
-class RecommendRepositoryTest extends AbstractAdminWebTestCase
+final class RecommendRepositoryTest extends AbstractAdminWebTestCase
 {
     /** @var RecommendProductRepository */
     private $recommendProductRepository;
