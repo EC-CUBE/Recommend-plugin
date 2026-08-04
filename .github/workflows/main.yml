@@ -208,7 +208,9 @@ jobs:
       - name: Setup EC-CUBE
         working-directory: 'ec-cube'
         run: |
-          bin/console doctrine:database:create
+          # SQLite では doctrine:database:create が
+          # 「SQLitePlatform::getCreateDatabaseSQL is not supported by platform」で失敗する。
+          # DB ファイルは schema:create が生成するため実行しない（本体 4.4 の unit-test.yml と同じ扱い）
           bin/console doctrine:schema:create
           # プラグイン有効化時に DeviceType 等のマスタデータを参照するため fixtures を投入する
           bin/console eccube:fixtures:load
