@@ -24,6 +24,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -62,7 +63,7 @@ class RecommendController extends AbstractController
      * Create & Edit.
      *
      * @param Request     $request
-     * @param int         $id
+     * @param int|null    $id
      *
      * @return array<string, mixed>|RedirectResponse
      *
@@ -71,7 +72,7 @@ class RecommendController extends AbstractController
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/new', name: 'plugin_recommend_new')]
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/edit', name: 'plugin_recommend_edit', requirements: ['id' => '\d+'])]
     #[Template('@Recommend44/admin/regist.twig')]
-    public function edit(Request $request, $id = null)
+    public function edit(Request $request, $id = null): array|RedirectResponse
     {
         /* @var RecommendProduct $Recommend */
         $Recommend = null;
@@ -145,7 +146,7 @@ class RecommendController extends AbstractController
      * @throws \Exception
      */
     #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/delete', name: 'plugin_recommend_delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
-    public function delete(RecommendProduct $RecommendProduct)
+    public function delete(RecommendProduct $RecommendProduct): RedirectResponse
     {
         // Valid token
         $this->isTokenValid();
@@ -168,18 +169,24 @@ class RecommendController extends AbstractController
      *
      * @return Response
      *
-     * @throws \Exception
+     * @throws BadRequestHttpException|\Exception
      */
-    #[Route(path: '/%eccube_admin_route%/plugin/recommend/sort_no/move', name: 'plugin_recommend_rank_move')]
-    public function moveRank(Request $request)
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/sort_no/move', name: 'plugin_recommend_rank_move', methods: ['POST'])]
+    public function moveRank(Request $request): Response
     {
-        if ($request->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        if ($this->isTokenValid()) {
             $arrRank = $request->request->all();
             $arrRankMoved = $this->recommendProductRepository->moveRecommendRank($arrRank);
             log_info('Recommend move rank', $arrRankMoved);
+
+            return new Response('OK');
         }
 
-        return new Response('OK');
+        throw new BadRequestHttpException();
     }
 
     /**

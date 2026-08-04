@@ -121,8 +121,10 @@ class RecommendProductRepository extends AbstractRepository
         $arrRankMoved = [];
         try {
             foreach ($arrRank as $recommendId => $rank) {
-                /** @var RecommendProduct $Recommend */
                 $Recommend = $this->find($recommendId);
+                if (!$Recommend) {
+                    continue;
+                }
                 if ($Recommend->getSortno() == $rank) {
                     continue;
                 }
