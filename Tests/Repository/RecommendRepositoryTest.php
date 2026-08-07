@@ -1,48 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of EC-CUBE
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Tests\Repository;
+namespace Plugin\Recommend44\Tests\Repository;
 
 use Eccube\Entity\Product;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
-use Plugin\Recommend42\Entity\RecommendProduct;
-use Plugin\Recommend42\Repository\RecommendProductRepository;
-
+use Plugin\Recommend44\Entity\RecommendProduct;
+use Plugin\Recommend44\Repository\RecommendProductRepository;
 
 /**
  * Class RecommendRepositoryTest.
  */
-class RecommendRepositoryTest extends AbstractAdminWebTestCase
+final class RecommendRepositoryTest extends AbstractAdminWebTestCase
 {
-    /**
-     * @var RecommendProductRepository
-     */
+    /** @var RecommendProductRepository */
     private $recommendProductRepository;
 
-    /**
-     * @var ProductRepository
-     */
+    /** @var ProductRepository */
     private $productRepository;
 
-    /**
-     * @var RecommendProduct
-     */
+    /** @var RecommendProduct */
     private $Recommend;
 
-    /**
-     * @var RecommendProduct
-     */
+    /** @var RecommendProduct */
     private $Recommend2;
 
     /**
@@ -64,7 +57,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     /**
      * function : getMaxRank.
      */
-    public function testGetMaxRank()
+    public function testGetMaxRank(): void
     {
         $ProductsOver = $this->recommendProductRepository->getMaxRank();
 
@@ -76,7 +69,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     /**
      * function : getRecommendProduct.
      */
-    public function testGetRecommendProduct()
+    public function testGetRecommendProduct(): void
     {
         // visible=false が2件
         $RecommendProducts = $this->recommendProductRepository->getRecommendProduct();
@@ -86,10 +79,10 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
         $this->verify();
 
         // 1件をvisible=falseに変更
-        /** @var RecommendProduct $VisibleRecommendProducts[] */
+        /** @var RecommendProduct[] $VisibleRecommendProducts */
         $VisibleRecommendProducts = $this->recommendProductRepository->findBy(['sort_no' => 2]);
         $VisibleRecommendProducts[0]->setVisible(false);
-        $this->entityManager->flush($VisibleRecommendProducts[0]);
+        $this->entityManager->flush();
 
         // visible=false が1件
         $RecommendProducts = $this->recommendProductRepository->getRecommendProduct();
@@ -102,7 +95,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     /**
      * function : GetRecommendList.
      */
-    public function testGetRecommendList()
+    public function testGetRecommendList(): void
     {
         $RecommendProducts = $this->recommendProductRepository->getRecommendList();
 
@@ -114,7 +107,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     /**
      * function : countRecommend.
      */
-    public function testCountRecommend()
+    public function testCountRecommend(): void
     {
         $countRecommend = $this->recommendProductRepository->countRecommend();
 
@@ -126,7 +119,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     /**
      * function : moveRecommendRank.
      */
-    public function testMoveRecommendRank()
+    public function testMoveRecommendRank(): void
     {
         $arrRecommend = [
             $this->Recommend->getId() => 2,
@@ -142,7 +135,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     /**
      * function : getRecommendProductIdAll.
      */
-    public function testGetRecommendProductIdAll()
+    public function testGetRecommendProductIdAll(): void
     {
         $productIdAll = $this->recommendProductRepository->getRecommendProductIdAll();
 
@@ -154,7 +147,7 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
     /**
      * function : deleteRecommend.
      */
-    public function testDeleteRecommend()
+    public function testDeleteRecommend(): void
     {
         $deleteRecommend = $this->recommendProductRepository->deleteRecommend($this->Recommend);
 
@@ -163,18 +156,12 @@ class RecommendRepositoryTest extends AbstractAdminWebTestCase
         $this->verify();
     }
 
-    /**
-     * @param $productId
-     * @param $rank
-     *
-     * @return RecommendProduct
-     */
-    private function initRecommendData($productId, $rank)
+    private function initRecommendData(int $productId, int $rank): RecommendProduct
     {
         $dateTime = new \DateTime();
         $fake = $this->getFaker();
 
-        $Recommend = new \Plugin\Recommend42\Entity\RecommendProduct();
+        $Recommend = new RecommendProduct();
         $Recommend->setComment($fake->word);
         $Recommend->setProduct($this->productRepository->find($productId));
         $Recommend->setSortno($rank);

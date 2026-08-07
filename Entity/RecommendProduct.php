@@ -5,89 +5,58 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Entity;
+namespace Plugin\Recommend44\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Entity\AbstractEntity;
 use Eccube\Entity\Product;
+use Plugin\Recommend44\Repository\RecommendProductRepository;
 
 /**
  * RecommendProduct
- *
- * @ORM\Table(name="plg_recommend_product")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discriminator_type", type="string", length=255)
- * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass="Plugin\Recommend42\Repository\RecommendProductRepository")
  */
+#[ORM\Table(name: 'plg_recommend_product')]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'discriminator_type', type: Types::STRING, length: 255)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity(repositoryClass: RecommendProductRepository::class)]
 class RecommendProduct extends AbstractEntity
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="recommend_id", type="integer", options={"unsigned":true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(name: 'recommend_id', type: Types::INTEGER, options: ['unsigned' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="comment", type="text", nullable=true)
-     */
-    private $comment;
+    #[ORM\Column(name: 'comment', type: Types::TEXT, nullable: true)]
+    private ?string $comment = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="sort_no", type="integer", nullable=true)
-     */
-    private $sort_no;
+    #[ORM\Column(name: 'sort_no', type: Types::INTEGER, nullable: true)]
+    private ?int $sort_no = null;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="visible", type="boolean", options={"default":true})
-     */
-    private $visible;
+    #[ORM\Column(name: 'visible', type: Types::BOOLEAN, options: ['default' => true])]
+    private bool $visible = true;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_date", type="datetimetz")
-     */
-    private $create_date;
+    #[ORM\Column(name: 'create_date', type: Types::DATETIMETZ_MUTABLE)]
+    private ?\DateTime $create_date = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="update_date", type="datetimetz")
-     */
-    private $update_date;
+    #[ORM\Column(name: 'update_date', type: Types::DATETIMETZ_MUTABLE)]
+    private ?\DateTime $update_date = null;
 
-    /**
-     * @var \Eccube\Entity\Product
-     *
-     * @ORM\OneToOne(targetEntity="Eccube\Entity\Product")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     * })
-     */
-    private $Product;
+    #[ORM\OneToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id')]
+    private ?Product $Product = null;
 
     /**
      * Get recommend product id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -95,11 +64,9 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set recommend product id.
      *
-     * @param int $id
-     *
      * @return $this
      */
-    public function setId($id)
+    public function setId(?int $id): self
     {
         $this->id = $id;
 
@@ -108,10 +75,8 @@ class RecommendProduct extends AbstractEntity
 
     /**
      * Get commend.
-     *
-     * @return string
      */
-    public function getComment()
+    public function getComment(): ?string
     {
         return $this->comment;
     }
@@ -119,11 +84,9 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set comment.
      *
-     * @param string $comment
-     *
      * @return $this
      */
-    public function setComment($comment)
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
@@ -132,10 +95,8 @@ class RecommendProduct extends AbstractEntity
 
     /**
      * Get rank.
-     *
-     * @return int
      */
-    public function getSortno()
+    public function getSortno(): ?int
     {
         return $this->sort_no;
     }
@@ -143,11 +104,9 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set rank.
      *
-     * @param int $sort_no
-     *
      * @return $this
      */
-    public function setSortno($sort_no)
+    public function setSortno(?int $sort_no): self
     {
         $this->sort_no = $sort_no;
 
@@ -157,11 +116,9 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set visible.
      *
-     * @param bool $visible
-     *
      * @return $this
      */
-    public function setVisible($visible)
+    public function setVisible(bool $visible): self
     {
         $this->visible = $visible;
 
@@ -170,10 +127,8 @@ class RecommendProduct extends AbstractEntity
 
     /**
      * Get del_flg.
-     *
-     * @return bool
      */
-    public function getVisible()
+    public function getVisible(): bool
     {
         return $this->visible;
     }
@@ -181,11 +136,9 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set create_date.
      *
-     * @param \DateTime $createDate
-     *
      * @return $this
      */
-    public function setCreateDate($createDate)
+    public function setCreateDate(?\DateTime $createDate): self
     {
         $this->create_date = $createDate;
 
@@ -194,10 +147,8 @@ class RecommendProduct extends AbstractEntity
 
     /**
      * Get create_date.
-     *
-     * @return \DateTime
      */
-    public function getCreateDate()
+    public function getCreateDate(): ?\DateTime
     {
         return $this->create_date;
     }
@@ -205,11 +156,9 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set update_date.
      *
-     * @param \DateTime $updateDate
-     *
      * @return $this
      */
-    public function setUpdateDate($updateDate)
+    public function setUpdateDate(?\DateTime $updateDate): self
     {
         $this->update_date = $updateDate;
 
@@ -218,10 +167,8 @@ class RecommendProduct extends AbstractEntity
 
     /**
      * Get update_date.
-     *
-     * @return \DateTime
      */
-    public function getUpdateDate()
+    public function getUpdateDate(): ?\DateTime
     {
         return $this->update_date;
     }
@@ -229,11 +176,9 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set Product.
      *
-     * @param \Eccube\Entity\Product $Product
-     *
      * @return $this
      */
-    public function setProduct(Product $Product)
+    public function setProduct(Product $Product): self
     {
         $this->Product = $Product;
 
@@ -242,10 +187,8 @@ class RecommendProduct extends AbstractEntity
 
     /**
      * Get Product.
-     *
-     * @return \Eccube\Entity\Product|null
      */
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->Product;
     }

@@ -5,16 +5,19 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Form\Type;
+namespace Plugin\Recommend44\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Common\EccubeConfig;
+use Eccube\Entity\Product;
+use Eccube\Form\DataTransformer\EntityToIdTransformer;
+use Plugin\Recommend44\Entity\RecommendProduct;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,10 +25,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\FormEvents;
-use Eccube\Form\DataTransformer;
 
 /**
  * Class RecommendProductType.
@@ -33,34 +35,22 @@ use Eccube\Form\DataTransformer;
 class RecommendProductType extends AbstractType
 {
     /**
-     * @var EccubeConfig
-     */
-    private $eccubeConfig;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
      * RecommendProductType constructor.
      *
      * @param EccubeConfig $eccubeConfig
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EccubeConfig $eccubeConfig, EntityManagerInterface $entityManager)
+    public function __construct(private EccubeConfig $eccubeConfig, private readonly EntityManagerInterface $entityManager)
     {
-        $this->eccubeConfig = $eccubeConfig;
-        $this->entityManager = $entityManager;
     }
 
     /**
      * Build config type form.
      *
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array<string, mixed> $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('id', TextType::class, [
@@ -74,9 +64,7 @@ class RecommendProductType extends AbstractType
                 'trim' => true,
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length([
-                        'max' => $this->eccubeConfig['plugin_recommend.text_area_len'],
-                    ]),
+                    new Assert\Length(max: $this->eccubeConfig['plugin_recommend.text_area_len']),
                 ],
                 'attr' => [
                     'maxlength' => $this->eccubeConfig['plugin_recommend.text_area_len'],
@@ -87,7 +75,7 @@ class RecommendProductType extends AbstractType
         $builder->add(
             $builder
                 ->create('Product', HiddenType::class)
-                ->addModelTransformer(new DataTransformer\EntityToIdTransformer($this->entityManager, '\Eccube\Entity\Product'))
+                ->addModelTransformer(new EntityToIdTransformer($this->entityManager, Product::class))
         );
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
@@ -108,18 +96,10 @@ class RecommendProductType extends AbstractType
      *
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => 'Plugin\Recommend42\Entity\RecommendProduct',
+            'data_class' => RecommendProduct::class,
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'admin_recommend';
     }
 }

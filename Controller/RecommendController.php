@@ -5,26 +5,27 @@
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * https://www.ec-cube.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Plugin\Recommend42\Controller;
+namespace Plugin\Recommend44\Controller;
 
 use Eccube\Controller\AbstractController;
 use Eccube\Form\Type\Admin\SearchProductType;
-use Plugin\Recommend42\Entity\RecommendProduct;
-use Plugin\Recommend42\Form\Type\RecommendProductType;
-use Plugin\Recommend42\Repository\RecommendProductRepository;
-use Plugin\Recommend42\Service\RecommendService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Plugin\Recommend44\Entity\RecommendProduct;
+use Plugin\Recommend44\Form\Type\RecommendProductType;
+use Plugin\Recommend44\Repository\RecommendProductRepository;
+use Plugin\Recommend44\Service\RecommendService;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class RecommendController.
@@ -32,37 +33,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class RecommendController extends AbstractController
 {
     /**
-     * @var RecommendProductRepository
-     */
-    private $recommendProductRepository;
-
-    /**
-     * @var RecommendService
-     */
-    private $recommendService;
-
-    /**
      * RecommendController constructor.
      *
      * @param RecommendProductRepository $recommendProductRepository
      * @param RecommendService $recommendService
      */
-    public function __construct(RecommendProductRepository $recommendProductRepository, RecommendService $recommendService)
+    public function __construct(private readonly RecommendProductRepository $recommendProductRepository, private readonly RecommendService $recommendService)
     {
-        $this->recommendProductRepository = $recommendProductRepository;
-        $this->recommendService = $recommendService;
     }
 
     /**
      * おすすめ商品一覧.
      *
-     * @param Request     $request
-     *
-     * @return array
-     * @Route("/%eccube_admin_route%/plugin/recommend", name="plugin_recommend_list")
-     * @Template("@Recommend42/admin/index.twig")
+     * @return array<string, mixed>
      */
-    public function index(Request $request)
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend', name: 'plugin_recommend_list')]
+    #[Template('@Recommend44/admin/index.twig')]
+    public function index(): array
     {
         $pagination = $this->recommendProductRepository->getRecommendList();
 
@@ -76,16 +63,16 @@ class RecommendController extends AbstractController
      * Create & Edit.
      *
      * @param Request     $request
-     * @param int         $id
+     * @param int|null    $id
+     *
+     * @return array<string, mixed>|RedirectResponse
      *
      * @throws \Exception
-     *
-     * @return array|RedirectResponse
-     * @Route("/%eccube_admin_route%/plugin/recommend/new", name="plugin_recommend_new")
-     * @Route("/%eccube_admin_route%/plugin/recommend/{id}/edit", name="plugin_recommend_edit", requirements={"id" = "\d+"})
-     * @Template("@Recommend42/admin/regist.twig")
      */
-    public function edit(Request $request, $id = null)
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/new', name: 'plugin_recommend_new')]
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/edit', name: 'plugin_recommend_edit', requirements: ['id' => '\d+'])]
+    #[Template('@Recommend44/admin/regist.twig')]
+    public function edit(Request $request, $id = null): array|RedirectResponse
     {
         /* @var RecommendProduct $Recommend */
         $Recommend = null;
@@ -152,15 +139,14 @@ class RecommendController extends AbstractController
     /**
      * おすすめ商品の削除.
      *
-     * @param Request     $request
      * @param RecommendProduct $RecommendProduct
      *
-     * @throws \Exception
+     * @return RedirectResponse
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/%eccube_admin_route%/plugin/recommend/{id}/delete", name="plugin_recommend_delete", requirements={"id" = "\d+"}, methods={"DELETE"})
+     * @throws \Exception
      */
-    public function delete(Request $request, RecommendProduct $RecommendProduct)
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/{id}/delete', name: 'plugin_recommend_delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    public function delete(RecommendProduct $RecommendProduct): RedirectResponse
     {
         // Valid token
         $this->isTokenValid();
@@ -181,31 +167,36 @@ class RecommendController extends AbstractController
      *
      * @param Request     $request
      *
-     * @throws \Exception
-     *
      * @return Response
      *
-     * @Route("/%eccube_admin_route%/plugin/recommend/sort_no/move", name="plugin_recommend_rank_move")
+     * @throws BadRequestHttpException|\Exception
      */
-    public function moveRank(Request $request)
+    #[Route(path: '/%eccube_admin_route%/plugin/recommend/sort_no/move', name: 'plugin_recommend_rank_move', methods: ['POST'])]
+    public function moveRank(Request $request): Response
     {
-        if ($request->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        if ($this->isTokenValid()) {
             $arrRank = $request->request->all();
             $arrRankMoved = $this->recommendProductRepository->moveRecommendRank($arrRank);
             log_info('Recommend move rank', $arrRankMoved);
+
+            return new Response('OK');
         }
 
-        return new Response('OK');
+        throw new BadRequestHttpException();
     }
 
     /**
      * 編集画面用のrender.
      *
-     * @param array       $parameters
+     * @param array<string, mixed> $parameters
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function registerView($parameters = [])
+    protected function registerView(array $parameters = []): array
     {
         // 商品検索フォーム
         $searchProductModalForm = $this->formFactory->createBuilder(SearchProductType::class)->getForm();
