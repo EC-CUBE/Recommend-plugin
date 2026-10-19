@@ -56,6 +56,8 @@ class RecommendProductType extends AbstractType
             ->add('id', TextType::class, [
                 'label' => 'plugin_recommend.admin.edit.product',
                 'required' => false,
+                // 表示だけの項目. 送られた値で ID を書き換えない (数値以外は RecommendProduct::setId() の型宣言で 500 になっていた)
+                'disabled' => true,
                 'attr' => ['readonly' => 'readonly'],
             ])
             ->add('comment', TextareaType::class, [

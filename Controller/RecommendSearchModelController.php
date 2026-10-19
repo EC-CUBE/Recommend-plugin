@@ -21,6 +21,7 @@ use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -66,6 +67,9 @@ class RecommendSearchModelController extends AbstractController
             ];
 
             if ($categoryId = $request->get('category_id')) {
+                if (!$this->isValidId($categoryId)) {
+                    throw new BadRequestHttpException();
+                }
                 $searchData['category_id'] = $categoryId;
             }
 
@@ -81,10 +85,13 @@ class RecommendSearchModelController extends AbstractController
         }
 
         // set parameter
-        $searchData['id'] = $searchData['name'];
+        $searchData['id'] = $searchData['name'] ?? '';
 
         if (!empty($searchData['category_id'])) {
-            $searchData['category_id'] = $this->categoryRepository->find($searchData['category_id']);
+            // セッションに残った以前の検索条件も、不正な ID なら条件から外す
+            $searchData['category_id'] = $this->isValidId($searchData['category_id'])
+                ? $this->categoryRepository->find($searchData['category_id'])
+                : null;
         }
 
         $qb = $this->productRepository->getQueryBuilderBySearchDataForAdmin($searchData);
@@ -108,5 +115,17 @@ class RecommendSearchModelController extends AbstractController
         return [
             'pagination' => $pagination,
         ];
+    }
+
+    /**
+     * 整数の ID として扱える値か (DB の integer の範囲に収まる正の整数).
+     */
+    private function isValidId(mixed $value): bool
+    {
+        if (!is_int($value) && !is_string($value)) {
+            return false;
+        }
+
+        return preg_match('/\A[1-9][0-9]{0,9}\z/', (string) $value) === 1 && (int) $value <= 2147483647;
     }
 }

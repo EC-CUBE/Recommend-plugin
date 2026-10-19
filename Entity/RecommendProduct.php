@@ -176,9 +176,12 @@ class RecommendProduct extends AbstractEntity
     /**
      * Set Product.
      *
+     * 登録・編集のフォームは、商品が見つからない値を null に変換して書き込む.
+     * 商品が無いことはフォームの POST_SUBMIT で入力エラーにするため、ここでは null を受け付ける.
+     *
      * @return $this
      */
-    public function setProduct(Product $Product): self
+    public function setProduct(?Product $Product): self
     {
         $this->Product = $Product;
 

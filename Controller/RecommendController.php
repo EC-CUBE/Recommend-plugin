@@ -179,7 +179,16 @@ class RecommendController extends AbstractController
         }
 
         if ($this->isTokenValid()) {
-            $arrRank = $request->request->all();
+            $arrRank = [];
+            foreach ($request->request->all() as $recommendId => $rank) {
+                // おすすめ商品の ID と並び順は integer のため、範囲外や数値以外は 400 にする
+                if (!is_string($rank)
+                    || preg_match('/\A[1-9][0-9]{0,9}\z/', (string) $recommendId) !== 1 || (int) $recommendId > 2147483647
+                    || preg_match('/\A[0-9]{1,10}\z/', $rank) !== 1 || (int) $rank > 2147483647) {
+                    throw new BadRequestHttpException();
+                }
+                $arrRank[(int) $recommendId] = (int) $rank;
+            }
             $arrRankMoved = $this->recommendProductRepository->moveRecommendRank($arrRank);
             log_info('Recommend move rank', $arrRankMoved);
 

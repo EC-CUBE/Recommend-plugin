@@ -19,9 +19,11 @@ use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Product;
 use Eccube\Repository\ProductRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Plugin\Recommend44\Entity\RecommendProduct;
 use Plugin\Recommend44\Repository\RecommendProductRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class RecommendAdminControllerTest.
@@ -294,6 +296,34 @@ final class RecommendAdminControllerTest extends AbstractAdminWebTestCase
     }
 
     /**
+     * 整数の ID でないカテゴリは 400 を返す (DB の型エラーで 500 にしない).
+     */
+    #[DataProvider('invalidIdProvider')]
+    public function testAjaxSearchProductWithInvalidCategoryId(mixed $categoryId): void
+    {
+        $this->client->request(
+            Request::METHOD_POST,
+            $this->generateUrl('plugin_recommend_search_product'),
+            ['id' => '', 'category_id' => $categoryId],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode(), (string) $this->client->getResponse()->getContent());
+    }
+
+    /**
+     * @return \Iterator<string, array<mixed>>
+     */
+    public static function invalidIdProvider(): \Iterator
+    {
+        yield '文字列' => ['abc'];
+        yield '整数の範囲外' => ['99999999999'];
+        yield '負の数' => ['-1'];
+        yield '配列' => [['1']];
+    }
+
+    /**
      * testRecommendEditShow.
      */
     public function testRecommendEditShow(): void
@@ -360,6 +390,118 @@ final class RecommendAdminControllerTest extends AbstractAdminWebTestCase
             ]
         );
         $this->assertTrue($this->client->getResponse()->isRedirect($this->generateUrl('plugin_recommend_list')));
+    }
+
+    /**
+     * 表示だけの ID の項目に送られた値では, おすすめ商品の ID を書き換えない.
+     */
+    public function testRecommendEditWithInvalidId(): void
+    {
+        $recommendId = $this->Recommend2->getId();
+
+        $this->client->request(
+            Request::METHOD_POST,
+            $this->generateUrl('plugin_recommend_edit', ['id' => $recommendId]),
+            [
+                'recommend_product' => [
+                    '_token' => 'dummy',
+                    'comment' => 'comment',
+                    'id' => 'abc',
+                    'Product' => 2,
+                ],
+            ]
+        );
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->generateUrl('plugin_recommend_list')));
+        $this->assertSame('comment', $this->getRecommend(2)->getComment());
+        $this->assertSame($recommendId, $this->getRecommend(2)->getId());
+    }
+
+    /**
+     * @return iterable<string, array{array<string, string>}>
+     */
+    public static function editWithoutProductProvider(): iterable
+    {
+        yield '商品が空' => [['Product' => '']];
+        yield '商品が無い' => [[]];
+    }
+
+    /**
+     * 編集で商品を送らなければ, 500 にせず入力エラーにし, おすすめ商品を更新しない.
+     *
+     * @param array<string, string> $fields
+     */
+    #[DataProvider('editWithoutProductProvider')]
+    public function testRecommendEditWithoutProduct(array $fields): void
+    {
+        $recommendId = $this->Recommend2->getId();
+
+        $crawler = $this->client->request(
+            Request::METHOD_POST,
+            $this->generateUrl('plugin_recommend_edit', ['id' => $recommendId]),
+            [
+                'recommend_product' => $fields + [
+                    '_token' => 'dummy',
+                    'comment' => 'comment',
+                ],
+            ]
+        );
+
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertStringContainsString('商品を追加してください。', $crawler->filter('.card-body')->html());
+        $this->entityManager->clear();
+        $Recommend = $this->recommendProductRepository->find($recommendId);
+        $this->assertInstanceOf(RecommendProduct::class, $Recommend);
+        $this->assertSame(2, $Recommend->getProduct()?->getId());
+        $this->assertNotSame('comment', $Recommend->getComment());
+    }
+
+    public function testMoveRank(): void
+    {
+        $this->client->request(
+            Request::METHOD_POST,
+            $this->generateUrl('plugin_recommend_rank_move'),
+            [
+                $this->Recommend1->getId() => 2,
+                $this->Recommend2->getId() => 1,
+            ],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+
+        $this->entityManager->clear();
+        $this->assertSame(2, $this->recommendProductRepository->find($this->Recommend1->getId())->getSortno());
+        $this->assertSame(1, $this->recommendProductRepository->find($this->Recommend2->getId())->getSortno());
+    }
+
+    /**
+     * ID と並び順が integer として扱えない場合は 400 を返す.
+     *
+     * @param array<mixed> $parameters
+     */
+    #[DataProvider('invalidRankProvider')]
+    public function testMoveRankWithInvalidValue(array $parameters): void
+    {
+        $this->client->request(
+            Request::METHOD_POST,
+            $this->generateUrl('plugin_recommend_rank_move'),
+            $parameters,
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode(), (string) $this->client->getResponse()->getContent());
+    }
+
+    /**
+     * @return \Iterator<string, array<array<mixed>>>
+     */
+    public static function invalidRankProvider(): \Iterator
+    {
+        yield 'ID が文字列' => [['abc' => '1']];
+        yield 'ID が整数の範囲外' => [['99999999999' => '1']];
+        yield '並び順が文字列' => [['1' => 'abc']];
+        yield '並び順が整数の範囲外' => [['1' => '99999999999']];
+        yield '並び順が配列' => [['1' => ['1']]];
     }
 
     /**
